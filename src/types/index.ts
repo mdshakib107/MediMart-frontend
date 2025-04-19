@@ -22,3 +22,20 @@ export type TMedicine = {
   createdAt?: string | Date;
   updatedAt?: string | Date;
 };
+
+export type TMeta = {
+  page: number;
+  limit: number;
+  total: number;
+  totalPage: number;
+};
+
+export type TApiResponse<T> = {
+  success: boolean;
+  message: string;
+  statusCode: number;
+  data: {
+    meta: TMeta;
+    result: TMedicine[];
+  };
+};
