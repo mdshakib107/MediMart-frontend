@@ -1,6 +1,8 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
-import { Button } from "@/components/ui/button";
+import Logo from "@/assets/images/logo/Logo";
+import CustomButton from "@/components/shared/CustomButton";
 import {
   Form,
   FormControl,
@@ -10,13 +12,12 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
-import Link from "next/link";
-import Logo from "@/app/assets/images/Logo";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { registrationSchema } from "./registerValidation";
-import { registerUser } from "../AuthService/index";
+import Link from "next/link";
+import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import { toast } from "sonner";
+import { registerUser } from "../AuthService/index";
+import { registrationSchema } from "./registerValidation";
 
 export default function RegisterForm() {
   const form = useForm({
@@ -115,13 +116,12 @@ export default function RegisterForm() {
             )}
           />
 
-          <Button
-             disabled={Boolean(passwordConfirm && password !== passwordConfirm)}
+          <CustomButton
+            disabled={Boolean(passwordConfirm && password !== passwordConfirm)}
             type="submit"
-            className="mt-5 w-full"
-          >
-            {isSubmitting ? "Registering...." : "Register"}
-          </Button>
+            className="mt-5! w-full"
+            textName={isSubmitting ? "Registering...." : "Register"}
+          />
         </form>
       </Form>
       <p className="text-sm text-gray-600 text-center my-3">

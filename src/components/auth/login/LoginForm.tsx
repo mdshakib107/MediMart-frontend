@@ -1,6 +1,7 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
-import ReCAPTCHA from "react-google-recaptcha";
-import { Button } from "@/components/ui/button";
+import Logo from "@/assets/images/logo/Logo";
+import CustomButton from "@/components/shared/CustomButton";
 import {
   Form,
   FormControl,
@@ -10,15 +11,15 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
-import Link from "next/link";
-import Logo from "@/app/assets/images/Logo";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { loginUser, reCaptchaTokenVerification } from "../AuthService/index";
-import { toast } from "sonner";
-import { loginSchema } from "./loginValidation";
-import { useState } from "react";
+import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
+import { useState } from "react";
+import ReCAPTCHA from "react-google-recaptcha";
+import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
+import { toast } from "sonner";
+import { loginUser, reCaptchaTokenVerification } from "../AuthService/index";
+import { loginSchema } from "./loginValidation";
 
 export default function LoginForm() {
   const form = useForm({
@@ -110,13 +111,12 @@ export default function LoginForm() {
             />
           </div>
 
-          <Button
+          <CustomButton
             disabled={reCaptchaStatus ? false : true}
             type="submit"
-            className="mt-5 w-full"
-          >
-            {isSubmitting ? "Logging...." : "Login"}
-          </Button>
+            className="mt-5! w-full"
+            textName={isSubmitting ? "Logging...." : "Login"}
+          />
         </form>
       </Form>
       <p className="text-sm text-gray-600 text-center my-3">

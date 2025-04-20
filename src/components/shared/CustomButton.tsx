@@ -11,6 +11,7 @@ interface CustomButtonProps {
   ) => void; // Supports both click and form submit events
   className?: string; // Allow className to be passed as a prop
   type?: "button" | "submit" | "reset"; // Button type, narrowed to valid values
+  disabled?: boolean;
 }
 
 // custom button
@@ -19,6 +20,7 @@ const CustomButton: React.FC<CustomButtonProps> = ({
   handleAnything,
   className = "",
   type = "button", // default value for 'type'
+  disabled = false, // default value for 'disabled'
 }) => {
   return (
     <button
@@ -26,6 +28,7 @@ const CustomButton: React.FC<CustomButtonProps> = ({
       type={type} // the `type` prop here
       className={clsx(
         "relative inline-flex items-center justify-center px-8 py-3.5 overflow-hidden font-mono dark:bg-slate-800 tracking-tighter text-white bg-blue-600 rounded-lg group hover:cursor-pointer  active:scale-95 active:shadow-inner",
+        disabled && "opacity-50 cursor-not-allowed",
         className,
       )}
     >
