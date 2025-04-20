@@ -43,8 +43,8 @@ const InfiniteProductList = () => {
       }
     >
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-        {products.map((medicine) => (
-          <ProductCard key={medicine._id} medicine={medicine} />
+        {products.map((medicine, index) => (
+          <ProductCard key={`${medicine._id}-${index}`} medicine={medicine} />
         ))}
       </div>
     </InfiniteScroll>
