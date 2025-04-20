@@ -1,6 +1,6 @@
 "use client";
 
-import AnimatedLogo from "@/app/assets/images/AnimatedLogo";
+import AnimatedLogo from "@/assets/images/logo/AnimatedLogo";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { useState } from "react";
