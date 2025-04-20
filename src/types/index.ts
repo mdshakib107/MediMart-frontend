@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 export type TMedicine = {
   _id?: string; // optional because when creating, you might not have it yet
   name: string;
@@ -40,6 +39,5 @@ export type TApiResponse<T> = {
     result: T[];
   };
 };
-=======
+
 export * from "./user"
->>>>>>> b151fe66c376d373894a8f1e663d23b3de59240e
