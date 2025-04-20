@@ -9,7 +9,7 @@ const ProductCard = ({ medicine }: { medicine: TMedicine }) => {
   return (
     <div className="border p-4 rounded-md shadow-blue-200 transition-all duration-500 ease-in-out hover:-translate-y-2 hover:shadow-lg">
       <Image
-        src={medicine?.Img}
+        src={medicine?.Img as string}
         alt={medicine?.name}
         width={150}
         height={150}
