@@ -11,6 +11,8 @@ export type TMedicine = {
     | "Allergy"
     | "Skin & Hair"
     | "Diabetes";
+  
+  requiredPrescription: "Yes" | "No",
   description: string;
   manufacturerDetails: string;
   genericName: string;
