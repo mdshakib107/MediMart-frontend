@@ -1,7 +1,18 @@
-const MedicineDetailsPage = () => {
+import ProductDetails from "@/components/ui/products/productDetailsCard";
+import { getSingleProduct } from "@/services/Product";
+
+const MedicineDetailsPage = async ({
+  params,
+}: {
+  params: Promise<{ medicineId: string }>;
+}) => {
+  const { medicineId } = await params;
+  // Fetch medicine details using the medicineId
+  const { data: medicine } = await getSingleProduct(medicineId);
+  // console.log(medicine);
   return (
     <div>
-      <h1>This is medicine details page</h1>
+      <ProductDetails medicine={medicine} />
     </div>
   );
 };

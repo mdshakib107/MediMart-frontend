@@ -36,6 +36,6 @@ export type TApiResponse<T> = {
   statusCode: number;
   data: {
     meta: TMeta;
-    result: TMedicine[];
+    result: T[];
   };
 };

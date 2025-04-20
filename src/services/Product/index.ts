@@ -1,7 +1,7 @@
 "use server";
 
 // get all products
-export const getAllProducts = async (page?: string, limit?: string) => {
+export const getAllProducts = async (page: string, limit: string) => {
   try {
     const res = await fetch(
       `${process.env.NEXT_PUBLIC_BASE_API}/medicines?limit=${limit}&page=${page}`,

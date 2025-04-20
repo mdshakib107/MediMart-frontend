@@ -1,17 +1,15 @@
-import { getAllProducts } from "@/services/Product";
+import InfiniteProductList from "@/components/ui/products/inifinityScroll";
 
 export const metadata = {
   title: "MediMart | Shop",
   description: "This is the MediMart Shop page",
 };
 
-const ShopPage = async () => {
-  const { data: medicines } = await getAllProducts();
-
-  console.log(medicines);
+const ShopPage = () => {
   return (
-    <div>
-      <h1>This is Shop page</h1>
+    <div className="p-8">
+      <h1 className="text-3xl font-semibold text-center mb-8">Medicines</h1>
+      <InfiniteProductList />
     </div>
   );
 };
