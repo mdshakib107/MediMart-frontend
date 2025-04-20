@@ -6,6 +6,8 @@ import { Menu, X } from "lucide-react";
 import Link from "next/link";
 import { useState } from "react";
 
+import CartSheet from "./CartSheet";
+
 const navItems = [
   { label: "Home", href: "/" },
   { label: "Shop", href: "/shop" },
@@ -37,6 +39,7 @@ const Navbar = () => {
               {item.label}
             </Link>
           ))}
+          <CartSheet />
         </nav>
 
         {/* Mobile Menu Icon */}
@@ -48,6 +51,7 @@ const Navbar = () => {
           >
             {menuOpen ? <X size={24} /> : <Menu size={24} />}
           </Button>
+          <CartSheet />
         </div>
       </div>
 
