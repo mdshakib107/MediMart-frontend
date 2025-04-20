@@ -9,8 +9,8 @@ import { protectedRoutes } from "@/constants";
 import { usePathname, useRouter } from "next/navigation";
 import { useUser } from "@/contex/UserContext";
 import { Menu, X, LogOut } from "lucide-react";
+import CartSheet from "../modules/cart/CartSheet";
 
-import CartSheet from "./CartSheet";
 
 const navItems = [
   { label: "Home", href: "/" },

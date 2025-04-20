@@ -10,15 +10,15 @@ import { ShoppingCart } from "lucide-react";
 import Cart from "./Cart";
 const CartSheet = () => {
     return (
-        <Sheet>
+        <Sheet >
         <SheetTrigger>
           <ShoppingCart className="cursor-pointer" />
         </SheetTrigger>
-        <SheetContent>
+        <SheetContent >
           <SheetHeader>
-            <SheetTitle>Edit profile</SheetTitle>
-            <SheetDescription>
-              Make changes to your profile here. Click save when youre done.
+            <SheetTitle className="text-center text-2xl">MediMart Cart</SheetTitle>
+            <SheetDescription className="text-center">
+              Your carted medicine will apear here
             </SheetDescription>
           </SheetHeader>
           <Cart />
