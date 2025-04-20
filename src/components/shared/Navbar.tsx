@@ -1,6 +1,6 @@
 "use client";
 
-import AnimatedLogo from "@/app/assets/images/AnimatedLogo";
+import AnimatedLogo from "@/assets/images/logo/AnimatedLogo";
 import { Button } from "@/components/ui/button";
 import { Menu, X } from "lucide-react";
 import Link from "next/link";

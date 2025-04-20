@@ -1,4 +1,4 @@
-import Logo from "@/app/assets/images/Logo";
+import Logo from "@/assets/images/logo/Logo";
 import { Facebook, Instagram, Twitter } from "lucide-react";
 import Link from "next/link";
 
