@@ -1,6 +1,6 @@
 "use client";
 
-import AnimatedLogo from "@/app/assets/images/AnimatedLogo";
+import AnimatedLogo from "@/assets/images/logo/AnimatedLogo";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { useState } from "react";
@@ -14,6 +14,7 @@ import CartSheet from "../modules/cart/CartSheet";
 
 const navItems = [
   { label: "Home", href: "/" },
+  { label: "Shop", href: "/shop" },
   { label: "About", href: "/about" },
   { label: "Services", href: "/services" },
   { label: "Contact", href: "/contact" },
