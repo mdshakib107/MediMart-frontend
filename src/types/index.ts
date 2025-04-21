@@ -42,4 +42,4 @@ export type TApiResponse<T> = {
   };
 };
 
-export * from "./user"
+export * from "./customer"
