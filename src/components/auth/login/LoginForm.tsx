@@ -20,11 +20,17 @@ import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { loginSchema } from "./loginValidation";
 import { loginUser, reCaptchaTokenVerification } from "@/services/AuthService";
+import { EyeClosed, Eye } from "lucide-react";
 
 export default function LoginForm() {
+
+  // react hook form
   const form = useForm({
     resolver: zodResolver(loginSchema),
   });
+
+  // toggle password
+  const [showPassword, setShowPassword] = useState(false);
 
   const [reCaptchaStatus, setReCaptchaStatus] = useState(false);
 
@@ -55,7 +61,7 @@ export default function LoginForm() {
         if (redirect) {
           router.push(redirect);
         } else {
-          router.push("/profile");
+          router.push("/");
         }
       } else {
         toast.error(res?.message);
@@ -96,7 +102,20 @@ export default function LoginForm() {
               <FormItem>
                 <FormLabel>Password</FormLabel>
                 <FormControl>
-                  <Input type="password" {...field} value={field.value || ""} />
+                  <div className="relative">
+                    <Input
+                      type={showPassword ? "text" : "password"}
+                      {...field}
+                      value={field.value || ""}
+                    />
+                    <button
+                      type="button"
+                      className="absolute right-3 top-1/2 -translate-y-1/2 text-sm text-gray-600"
+                      onClick={() => setShowPassword((prev) => !prev)}
+                    >
+                      {showPassword ? <Eye /> : <EyeClosed />}
+                    </button>
+                  </div>
                 </FormControl>
                 <FormMessage />
               </FormItem>
