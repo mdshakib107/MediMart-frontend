@@ -1,14 +1,14 @@
 "use client";
 
 import AnimatedLogo from "@/assets/images/logo/AnimatedLogo";
-import { Button } from "@/components/ui/button";
-import Link from "next/link";
-import { useState } from "react";
 import { logout } from "@/components/auth/AuthService/index";
+import { Button } from "@/components/ui/button";
 import { protectedRoutes } from "@/constants";
+import { useUser } from "@/contexts/UserContext";
+import { LogOut, Menu, X } from "lucide-react";
+import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import { useUser } from "@/contex/UserContext";
-import { Menu, X, LogOut } from "lucide-react";
+import { useState } from "react";
 
 import CartSheet from "./CartSheet";
 import CustomButton from "./CustomButton";
@@ -22,6 +22,7 @@ const navItems = [
 ];
 
 const Navbar = () => {
+  // using hooks
   const [menuOpen, setMenuOpen] = useState(false);
   const { user, setIsLoading } = useUser();
   const pathname = usePathname();
@@ -34,6 +35,7 @@ const Navbar = () => {
       router.push("/");
     }
   };
+
   return (
     <header className="w-full border-b bg-white dark:bg-black sticky top-0 z-50 px-2">
       <div className="container mx-auto flex items-center justify-between py-4 px-4 md:px-0">
@@ -55,21 +57,21 @@ const Navbar = () => {
             </Link>
           ))}
           {user ? (
-              <Button
-                className="bg-red-500 text-white w-full"
-                onClick={() => {
-                  handleLogOut();
-                  setMenuOpen(false);
-                }}
-              >
-                <LogOut size={16} className="mr-2" />
-                Log Out
-              </Button>
-            ) : (
-              <Link href="/login">                
-                <CustomButton textName="Login" className="py-1!" />
-              </Link>
-            )}
+            <Button
+              className="bg-red-500 text-white w-full"
+              onClick={() => {
+                handleLogOut();
+                setMenuOpen(false);
+              }}
+            >
+              <LogOut size={16} className="mr-2" />
+              Log Out
+            </Button>
+          ) : (
+            <Link href="/login">
+              <CustomButton textName="Login" className="py-1!" />
+            </Link>
+          )}
           <CartSheet />
         </nav>
 
