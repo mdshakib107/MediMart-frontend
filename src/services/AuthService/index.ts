@@ -16,9 +16,9 @@ export const registerUser = async (userData: FieldValues) => {
     });
     const result = await res.json();
 
-    if (result.success) {
-      (await cookies()).set("accessToken", result.data.accessToken);
-      (await cookies()).set("refreshToken", result?.data?.refreshToken);
+    if (result?.success) {
+      (await cookies()).set("accessToken", result?.token);
+      (await cookies()).set("refreshToken", result?.refreshToken);
     }
 
     return result;
@@ -40,8 +40,8 @@ export const loginUser = async (userData: FieldValues) => {
     const result = await res.json();
 
     if (result?.success) {
-      (await cookies()).set("accessToken", result?.data?.accessToken);
-      (await cookies()).set("refreshToken", result?.data?.refreshToken);
+      (await cookies()).set("accessToken", result?.token);
+      (await cookies()).set("refreshToken", result?.refreshToken);
     }
 
     return result;

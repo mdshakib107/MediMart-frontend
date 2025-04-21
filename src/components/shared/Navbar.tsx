@@ -13,6 +13,17 @@ import CustomButton from "./CustomButton";
 import { logout } from "@/services/AuthService";
 import { protectedRoutes } from "@/contants";
 
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
+
+
 const navItems = [
   { label: "Home", href: "/" },
   { label: "Shop", href: "/shop" },
@@ -73,6 +84,29 @@ const Navbar = () => {
             </Link>
           )}
           <CartSheet />
+          <DropdownMenu>
+            <DropdownMenuTrigger>
+              <Avatar>
+                <AvatarImage src="https://github.com/shadcn.png" />
+                <AvatarFallback>User</AvatarFallback>
+              </Avatar>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent>
+              <DropdownMenuLabel>My Account</DropdownMenuLabel>
+              <DropdownMenuSeparator />
+              <DropdownMenuItem>Profile</DropdownMenuItem>
+              <DropdownMenuItem>Dashboard</DropdownMenuItem>
+              <DropdownMenuItem>Shop</DropdownMenuItem>
+              <DropdownMenuSeparator />
+              <DropdownMenuItem
+                className="cursor-pointer"
+                onClick={handleLogOut}
+              >
+                <LogOut />
+                <span>Log Out</span>
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
         </nav>
 
         {/* Mobile Menu Icon */}
@@ -126,7 +160,7 @@ const Navbar = () => {
                 </Button>
               </Link>
             )}
-          </div>
+          </div>   
         </div>
       )}
     </header>

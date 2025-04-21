@@ -54,15 +54,18 @@ export default function LoginForm() {
   };
 
   const onSubmit: SubmitHandler<FieldValues> = async (data) => {
+
+    // reCaptchaStatus check
+    if (!reCaptchaStatus) {
+      toast.error("Please complete the reCAPTCHA first.");
+      return; // Block submission
+    }
+
     try {
       const res = await loginUser(data);
-      if (res?.success) {
+      if (res?.success  ) {
         toast.success(res?.message);
-        if (redirect) {
-          router.push(redirect);
-        } else {
-          router.push("/");
-        }
+        router.push(redirect || "/");
       } else {
         toast.error(res?.message);
       }
