@@ -1,4 +1,5 @@
-import { getCurrentUser } from "@/components/auth/AuthService";
+
+import { getCurrentUser } from "@/services/AuthService";
 import { IUser } from "@/types";
 import {
   createContext,
