@@ -3,12 +3,11 @@
 import AnimatedLogo from "@/assets/images/logo/AnimatedLogo";
 import { Button } from "@/components/ui/button";
 import { useUser } from "@/contexts/UserContext";
-import { LogOut, Menu, X } from "lucide-react";
+import { LogOut, Menu, ShoppingCart, X } from "lucide-react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useState } from "react";
 
-import CartSheet from "./CartSheet";
 import CustomButton from "./CustomButton";
 import { logout } from "@/services/AuthService";
 import { protectedRoutes } from "@/contants";
@@ -69,7 +68,7 @@ const Navbar = () => {
           ))}
           {user ? (
             <Button
-              className="bg-red-500 text-white w-full"
+              className="bg-red-500 text-white "
               onClick={() => {
                 handleLogOut();
                 setMenuOpen(false);
@@ -83,7 +82,9 @@ const Navbar = () => {
               <CustomButton textName="Login" className="py-1!" />
             </Link>
           )}
-          <CartSheet />
+          <Link href={'/cart'}>
+          <ShoppingCart className="cursor-pointer" />
+          </Link>
           <DropdownMenu>
             <DropdownMenuTrigger>
               <Avatar>
@@ -118,7 +119,9 @@ const Navbar = () => {
           >
             {menuOpen ? <X size={24} /> : <Menu size={24} />}
           </Button>
-          <CartSheet />
+          <Link href={'/cart'}>
+          <ShoppingCart className="cursor-pointer" />
+          </Link>
         </div>
       </div>
 

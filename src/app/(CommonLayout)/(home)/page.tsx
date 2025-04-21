@@ -7,7 +7,7 @@ const HomePage = () => {
       {/* <Navbar /> */}
       <main className="min-h-screen">
         <HeroSection />
-        <FeaturedSection/>
+        <FeaturedSection/> 
       </main>
       {/* <Footer /> */}
     </>
