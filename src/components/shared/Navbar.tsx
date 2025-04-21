@@ -11,6 +11,7 @@ import { useUser } from "@/contex/UserContext";
 import { Menu, X, LogOut } from "lucide-react";
 
 import CartSheet from "./CartSheet";
+import CustomButton from "./CustomButton";
 
 const navItems = [
   { label: "Home", href: "/" },
@@ -26,8 +27,6 @@ const Navbar = () => {
   const pathname = usePathname();
   const router = useRouter();
 
-
-  
   const handleLogOut = () => {
     logout();
     setIsLoading(true);
@@ -36,7 +35,7 @@ const Navbar = () => {
     }
   };
   return (
-    <header className="w-full border-b bg-white dark:bg-black sticky top-0 z-50">
+    <header className="w-full border-b bg-white dark:bg-black sticky top-0 z-50 px-2">
       <div className="container mx-auto flex items-center justify-between py-4 px-4 md:px-0">
         {/* Logo */}
         <Link href="/" className="text-2xl font-bold text-primary">
@@ -45,7 +44,7 @@ const Navbar = () => {
         </Link>
 
         {/* Desktop Nav */}
-        <nav className="hidden md:flex gap-6">
+        <nav className="hidden md:flex justify-center items-center gap-6">
           {navItems.map((item) => (
             <Link
               key={item.href}
@@ -55,6 +54,22 @@ const Navbar = () => {
               {item.label}
             </Link>
           ))}
+          {user ? (
+              <Button
+                className="bg-red-500 text-white w-full"
+                onClick={() => {
+                  handleLogOut();
+                  setMenuOpen(false);
+                }}
+              >
+                <LogOut size={16} className="mr-2" />
+                Log Out
+              </Button>
+            ) : (
+              <Link href="/login">                
+                <CustomButton textName="Login" className="py-1!" />
+              </Link>
+            )}
           <CartSheet />
         </nav>
 
@@ -85,8 +100,8 @@ const Navbar = () => {
                 {item.label}
               </Link>
             ))}
-               </nav>
-               <div className="mt-4">
+          </nav>
+          <div className="mt-4">
             {user ? (
               <Button
                 className="bg-red-500 text-white w-full"
@@ -100,13 +115,17 @@ const Navbar = () => {
               </Button>
             ) : (
               <Link href="/login">
-                <Button className="w-full mt-2 rounded-full" variant="outline" onClick={() => setMenuOpen(false)}>
+                <Button
+                  className="w-full mt-2 rounded-full"
+                  variant="outline"
+                  onClick={() => setMenuOpen(false)}
+                >
                   Login
                 </Button>
               </Link>
             )}
           </div>
-          </div>
+        </div>
       )}
     </header>
   );
