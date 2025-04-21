@@ -30,30 +30,30 @@ const data = {
   navMain: [
     {
       title: "Dashboard",
-      url: "/user/dashboard",
+      url: "/customer/dashboard",
       icon: SquareTerminal,
       isActive: true,
     },
     {
       title: "Shop",
-      url: "/user/shop/products",
+      url: "/customer/shop/products",
       icon: Bot,
       items: [
         {
           title: "Manage Products",
-          url: "/user/shop/products",
+          url: "/customer/shop/products",
         },
         {
           title: "Manage Categories",
-          url: "/user/shop/category",
+          url: "/customer/shop/category",
         },
         {
           title: "Manage Brands",
-          url: "/user/shop/brand",
+          url: "/customer/shop/brand",
         },
         {
           title: "Manage Coupon",
-          url: "/user/shop/manage-coupon",
+          url: "/customer/shop/manage-coupon",
         },
       ],
     },
