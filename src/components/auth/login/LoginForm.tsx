@@ -1,6 +1,7 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
-import ReCAPTCHA from "react-google-recaptcha";
-import { Button } from "@/components/ui/button";
+import Logo from "@/assets/images/logo/Logo";
+import CustomButton from "@/components/shared/CustomButton";
 import {
   Form,
   FormControl,
@@ -10,20 +11,26 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
-import Link from "next/link";
-import Logo from "@/app/assets/images/Logo";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { loginUser, reCaptchaTokenVerification } from "../AuthService/index";
+import Link from "next/link";
+import { useRouter, useSearchParams } from "next/navigation";
+import { useState } from "react";
+import ReCAPTCHA from "react-google-recaptcha";
+import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { loginSchema } from "./loginValidation";
-import { useState } from "react";
-import { useRouter, useSearchParams } from "next/navigation";
+import { loginUser, reCaptchaTokenVerification } from "@/services/AuthService";
+import { EyeClosed, Eye } from "lucide-react";
 
 export default function LoginForm() {
+
+  // react hook form
   const form = useForm({
     resolver: zodResolver(loginSchema),
   });
+
+  // toggle password
+  const [showPassword, setShowPassword] = useState(false);
 
   const [reCaptchaStatus, setReCaptchaStatus] = useState(false);
 
@@ -47,15 +54,18 @@ export default function LoginForm() {
   };
 
   const onSubmit: SubmitHandler<FieldValues> = async (data) => {
+
+    // reCaptchaStatus check
+    if (!reCaptchaStatus) {
+      toast.error("Please complete the reCAPTCHA first.");
+      return; // Block submission
+    }
+
     try {
       const res = await loginUser(data);
-      if (res?.success) {
+      if (res?.success  ) {
         toast.success(res?.message);
-        if (redirect) {
-          router.push(redirect);
-        } else {
-          router.push("/profile");
-        }
+        router.push(redirect || "/");
       } else {
         toast.error(res?.message);
       }
@@ -95,7 +105,20 @@ export default function LoginForm() {
               <FormItem>
                 <FormLabel>Password</FormLabel>
                 <FormControl>
-                  <Input type="password" {...field} value={field.value || ""} />
+                  <div className="relative">
+                    <Input
+                      type={showPassword ? "text" : "password"}
+                      {...field}
+                      value={field.value || ""}
+                    />
+                    <button
+                      type="button"
+                      className="absolute right-3 top-1/2 -translate-y-1/2 text-sm text-gray-600"
+                      onClick={() => setShowPassword((prev) => !prev)}
+                    >
+                      {showPassword ? <Eye /> : <EyeClosed />}
+                    </button>
+                  </div>
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -110,18 +133,17 @@ export default function LoginForm() {
             />
           </div>
 
-          <Button
+          <CustomButton
             disabled={reCaptchaStatus ? false : true}
             type="submit"
-            className="mt-5 w-full"
-          >
-            {isSubmitting ? "Logging...." : "Login"}
-          </Button>
+            className="mt-5! w-full"
+            textName={isSubmitting ? "Logging...." : "Login"}
+          />
         </form>
       </Form>
       <p className="text-sm text-gray-600 text-center my-3">
-        Do not have any account ?
-        <Link href="/register" className="text-primary">
+        Do not have any account?
+        <Link href="/register" className="text-primary ml-2">
           Register
         </Link>
       </p>

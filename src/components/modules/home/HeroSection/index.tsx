@@ -1,7 +1,14 @@
+"use client";
+
 import CustomButton from "@/components/shared/CustomButton";
 import styles from "./HeroSection.module.css";
+import { useRouter } from "next/navigation";
 
 const HeroSection = () => {
+
+  // navigation
+  const router = useRouter();
+
   return (
     <div className={`${styles.banner} container mx-auto border-2 border-white rounded-3xl mt-10 relative`}>
         <div className="absolute inset-0 rounded-3xl container mx-auto h-[500px] opacity-60 bg-gradient-to-r from-indigo-600 via-black to-purple-400"></div>
@@ -14,7 +21,7 @@ const HeroSection = () => {
           Your one-stop destination for affordable and trusted medical products delivered with care.
         </p>
         
-        <CustomButton textName="Shop Now" />
+        <CustomButton textName="Shop Now" handleAnything={()=> router.push("/shop")}/>
       </div>
     </div>
   );

@@ -2,13 +2,25 @@
 
 import AnimatedLogo from "@/assets/images/logo/AnimatedLogo";
 import { Button } from "@/components/ui/button";
+import { useUser } from "@/contexts/UserContext";
+import { LogOut, Menu, X } from "lucide-react";
 import Link from "next/link";
-import { useState } from "react";
-import { logout } from "@/components/auth/AuthService/index";
-import { protectedRoutes } from "@/constants";
 import { usePathname, useRouter } from "next/navigation";
-import { useUser } from "@/contex/UserContext";
-import { Menu, X, LogOut } from "lucide-react";
+import { useState } from "react";
+
+import CustomButton from "./CustomButton";
+import { logout } from "@/services/AuthService";
+import { protectedRoutes } from "@/contants";
+
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import CartSheet from "../modules/cart/CartSheet";
 
 
@@ -21,13 +33,12 @@ const navItems = [
 ];
 
 const Navbar = () => {
+  // using hooks
   const [menuOpen, setMenuOpen] = useState(false);
   const { user, setIsLoading } = useUser();
   const pathname = usePathname();
   const router = useRouter();
 
-
-  
   const handleLogOut = () => {
     logout();
     setIsLoading(true);
@@ -35,8 +46,9 @@ const Navbar = () => {
       router.push("/");
     }
   };
+
   return (
-    <header className="w-full border-b bg-white dark:bg-black sticky top-0 z-50">
+    <header className="w-full border-b bg-white dark:bg-black sticky top-0 z-50 px-2">
       <div className="container mx-auto flex items-center justify-between py-4 px-4 md:px-0">
         {/* Logo */}
         <Link href="/" className="text-2xl font-bold text-primary">
@@ -45,7 +57,7 @@ const Navbar = () => {
         </Link>
 
         {/* Desktop Nav */}
-        <nav className="hidden md:flex gap-6">
+        <nav className="hidden md:flex justify-center items-center gap-6">
           {navItems.map((item) => (
             <Link
               key={item.href}
@@ -55,7 +67,46 @@ const Navbar = () => {
               {item.label}
             </Link>
           ))}
+          {user ? (
+            <Button
+              className="bg-red-500 text-white w-full"
+              onClick={() => {
+                handleLogOut();
+                setMenuOpen(false);
+              }}
+            >
+              <LogOut size={16} className="mr-2" />
+              Log Out
+            </Button>
+          ) : (
+            <Link href="/login">
+              <CustomButton textName="Login" className="py-1!" />
+            </Link>
+          )}
           <CartSheet />
+          <DropdownMenu>
+            <DropdownMenuTrigger>
+              <Avatar>
+                <AvatarImage src="https://github.com/shadcn.png" />
+                <AvatarFallback>User</AvatarFallback>
+              </Avatar>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent>
+              <DropdownMenuLabel>My Account</DropdownMenuLabel>
+              <DropdownMenuSeparator />
+              <DropdownMenuItem>Profile</DropdownMenuItem>
+              <DropdownMenuItem>Dashboard</DropdownMenuItem>
+              <DropdownMenuItem>Shop</DropdownMenuItem>
+              <DropdownMenuSeparator />
+              <DropdownMenuItem
+                className="cursor-pointer"
+                onClick={handleLogOut}
+              >
+                <LogOut />
+                <span>Log Out</span>
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
         </nav>
 
         {/* Mobile Menu Icon */}
@@ -85,8 +136,8 @@ const Navbar = () => {
                 {item.label}
               </Link>
             ))}
-               </nav>
-               <div className="mt-4">
+          </nav>
+          <div className="mt-4">
             {user ? (
               <Button
                 className="bg-red-500 text-white w-full"
@@ -100,13 +151,17 @@ const Navbar = () => {
               </Button>
             ) : (
               <Link href="/login">
-                <Button className="w-full mt-2 rounded-full" variant="outline" onClick={() => setMenuOpen(false)}>
+                <Button
+                  className="w-full mt-2 rounded-full"
+                  variant="outline"
+                  onClick={() => setMenuOpen(false)}
+                >
                   Login
                 </Button>
               </Link>
             )}
-          </div>
-          </div>
+          </div>   
+        </div>
       )}
     </header>
   );

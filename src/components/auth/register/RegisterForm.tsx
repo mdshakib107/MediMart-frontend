@@ -1,6 +1,8 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
-import { Button } from "@/components/ui/button";
+import Logo from "@/assets/images/logo/Logo";
+import CustomButton from "@/components/shared/CustomButton";
 import {
   Form,
   FormControl,
@@ -10,15 +12,19 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
-import Link from "next/link";
-import Logo from "@/app/assets/images/Logo";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { registrationSchema } from "./registerValidation";
-import { registerUser } from "../AuthService/index";
+import Link from "next/link";
+import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import { toast } from "sonner";
+import { registrationSchema } from "./registerValidation";
+import { registerUser } from "@/services/AuthService";
+import { useState } from "react";
+import { EyeClosed, Eye } from "lucide-react";
+import { useRouter } from "next/navigation";
 
 export default function RegisterForm() {
+
+  // react hook form
   const form = useForm({
     resolver: zodResolver(registrationSchema),
   });
@@ -27,15 +33,25 @@ export default function RegisterForm() {
     formState: { isSubmitting },
   } = form;
 
+  // router  
+  const router = useRouter();
+
+  // toggle password
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+
   const password = form.watch("password");
   const passwordConfirm = form.watch("passwordConfirm");
   //   console.log(password, passwordConfirm);
 
-  const onSubmit: SubmitHandler<FieldValues> = async (data) => {
+  // handle submit
+  const onSubmit: SubmitHandler<FieldValues> = async (data) => {    
     try {
       const res = await registerUser(data);
       if (res?.success) {
         toast.success(res?.message);
+        form.reset(); // reset form
+        router.push("/login"); // redirect to login
       } else {
         toast.error(res?.message);
       }
@@ -57,6 +73,7 @@ export default function RegisterForm() {
       </div>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)}>
+          {/* name */}
           <FormField
             control={form.control}
             name="name"
@@ -70,6 +87,7 @@ export default function RegisterForm() {
               </FormItem>
             )}
           />
+          {/* email */}
           <FormField
             control={form.control}
             name="email"
@@ -83,6 +101,7 @@ export default function RegisterForm() {
               </FormItem>
             )}
           />
+          {/* password */}
           <FormField
             control={form.control}
             name="password"
@@ -90,12 +109,26 @@ export default function RegisterForm() {
               <FormItem>
                 <FormLabel>Password</FormLabel>
                 <FormControl>
-                  <Input type="password" {...field} value={field.value || ""} />
+                  <div className="relative">
+                    <Input
+                      type={showPassword ? "text" : "password"}
+                      {...field}
+                      value={field.value || ""}
+                    />
+                    <button
+                      type="button"
+                      className="absolute right-3 top-1/2 -translate-y-1/2 text-sm text-gray-600"
+                      onClick={() => setShowPassword((prev) => !prev)}
+                    >
+                      {showPassword ? <Eye /> : <EyeClosed />}
+                    </button>
+                  </div>
                 </FormControl>
                 <FormMessage />
               </FormItem>
             )}
           />
+          {/* confirm password */}
           <FormField
             control={form.control}
             name="passwordConfirm"
@@ -103,7 +136,20 @@ export default function RegisterForm() {
               <FormItem>
                 <FormLabel>Confirm Password</FormLabel>
                 <FormControl>
-                  <Input type="password" {...field} value={field.value || ""} />
+                  <div className="relative">
+                    <Input
+                      type={showConfirmPassword ? "text" : "password"}
+                      {...field}
+                      value={field.value || ""}
+                    />
+                    <button
+                      type="button"
+                      className="absolute right-3 top-1/2 -translate-y-1/2 text-sm text-gray-600"
+                      onClick={() => setShowConfirmPassword((prev) => !prev)}
+                    >
+                      {showConfirmPassword ? <Eye /> : <EyeClosed />}
+                    </button>
+                  </div>
                 </FormControl>
 
                 {passwordConfirm && password !== passwordConfirm ? (
@@ -115,18 +161,18 @@ export default function RegisterForm() {
             )}
           />
 
-          <Button
-             disabled={Boolean(passwordConfirm && password !== passwordConfirm)}
+          {/* submit button */}
+          <CustomButton
+            disabled={Boolean(passwordConfirm && password !== passwordConfirm)}
             type="submit"
-            className="mt-5 w-full"
-          >
-            {isSubmitting ? "Registering...." : "Register"}
-          </Button>
+            className="mt-5! w-full"
+            textName={isSubmitting ? "Registering...." : "Register"}
+          />
         </form>
       </Form>
       <p className="text-sm text-gray-600 text-center my-3">
-        Already have an account ?
-        <Link href="/login" className="text-primary">
+        Already have an account?
+        <Link href="/login" className="text-primary ml-2">
           Login
         </Link>
       </p>

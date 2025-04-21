@@ -1,12 +1,12 @@
+import { getCurrentUser } from "@/services/AuthService";
 import { NextRequest, NextResponse } from "next/server";
-import { getCurrentUser } from "../components/auth/AuthService/index";
 
 type Role = keyof typeof roleBasedPrivateRoutes;
 
 const authRoutes = ["/login", "/register"];
 
 const roleBasedPrivateRoutes = {
-  user: [/^\/user/, /^\/create-shop/],
+  user: [/^\/customer/, /^\/create-shop/],
   admin: [/^\/admin/],
 };
 
@@ -20,10 +20,11 @@ export const middleware = async (request: NextRequest) => {
       return NextResponse.next();
     } else {
       return NextResponse.redirect(
-        new URL(
-          `http://localhost:3000/login?redirectPath=${pathname}`,
-          request.url
-        )
+        // new URL(
+        //   `http://localhost:3000/login?redirectPath=${pathname}`,
+        //   request.url
+        // )
+        new URL(`/login?redirectPath=${pathname}`, request.nextUrl.origin)
       );
     }
   }
