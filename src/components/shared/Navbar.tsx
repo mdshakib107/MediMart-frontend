@@ -1,9 +1,7 @@
 "use client";
 
 import AnimatedLogo from "@/assets/images/logo/AnimatedLogo";
-import { logout } from "@/components/auth/AuthService/index";
 import { Button } from "@/components/ui/button";
-import { protectedRoutes } from "@/constants";
 import { useUser } from "@/contexts/UserContext";
 import { LogOut, Menu, X } from "lucide-react";
 import Link from "next/link";
@@ -12,6 +10,8 @@ import { useState } from "react";
 
 import CartSheet from "./CartSheet";
 import CustomButton from "./CustomButton";
+import { logout } from "@/services/AuthService";
+import { protectedRoutes } from "@/contants";
 
 const navItems = [
   { label: "Home", href: "/" },

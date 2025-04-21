@@ -16,8 +16,8 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import { toast } from "sonner";
-import { registerUser } from "../AuthService/index";
 import { registrationSchema } from "./registerValidation";
+import { registerUser } from "@/services/AuthService";
 
 export default function RegisterForm() {
   const form = useForm({
@@ -125,8 +125,8 @@ export default function RegisterForm() {
         </form>
       </Form>
       <p className="text-sm text-gray-600 text-center my-3">
-        Already have an account ?
-        <Link href="/login" className="text-primary">
+        Already have an account?
+        <Link href="/login" className="text-primary ml-2">
           Login
         </Link>
       </p>

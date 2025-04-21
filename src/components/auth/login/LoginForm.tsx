@@ -18,8 +18,8 @@ import { useState } from "react";
 import ReCAPTCHA from "react-google-recaptcha";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import { toast } from "sonner";
-import { loginUser, reCaptchaTokenVerification } from "../AuthService/index";
 import { loginSchema } from "./loginValidation";
+import { loginUser, reCaptchaTokenVerification } from "@/services/AuthService";
 
 export default function LoginForm() {
   const form = useForm({
@@ -120,8 +120,8 @@ export default function LoginForm() {
         </form>
       </Form>
       <p className="text-sm text-gray-600 text-center my-3">
-        Do not have any account ?
-        <Link href="/register" className="text-primary">
+        Do not have any account?
+        <Link href="/register" className="text-primary ml-2">
           Register
         </Link>
       </p>
