@@ -42,6 +42,7 @@ export const loginUser = async (userData: FieldValues) => {
     if (result?.success) {
       (await cookies()).set("accessToken", result?.token);
       (await cookies()).set("refreshToken", result?.refreshToken);
+      (await cookies()).set("userData", JSON.stringify(result?.data));
     }
 
     return result;
@@ -52,11 +53,12 @@ export const loginUser = async (userData: FieldValues) => {
 
 export const getCurrentUser = async () => {
   const accessToken = (await cookies()).get("accessToken")?.value;
+  const userData: any = (await cookies()).get("userData")?.value;
   let decodedData = null;
 
   if (accessToken) {
     decodedData = await jwtDecode(accessToken);
-    return decodedData;
+    return {decodedData, userData: JSON.parse(userData)};
   } else {
     return null;
   }
@@ -83,6 +85,7 @@ export const reCaptchaTokenVerification = async (token: string) => {
 
 export const logout = async () => {
   (await cookies()).delete("accessToken");
+  (await cookies()).delete("userData");
 };
 
 export const getNewToken = async () => {
