@@ -19,9 +19,9 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-
+} from "@/components/ui/dropdown-menu";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Badge } from "@/components/ui/badge"
 
 const navItems = [
   { label: "Home", href: "/" },
@@ -46,6 +46,8 @@ const Navbar = () => {
     }
   };
 
+  console.log(user)
+
   return (
     <header className="w-full border-b bg-white dark:bg-black sticky top-0 z-50 px-2">
       <div className="container mx-auto flex items-center justify-between py-4 px-4 md:px-0">
@@ -67,47 +69,47 @@ const Navbar = () => {
             </Link>
           ))}
           {user ? (
-            <Button
-              className="bg-red-500 text-white "
-              onClick={() => {
-                handleLogOut();
-                setMenuOpen(false);
-              }}
-            >
-              <LogOut size={16} className="mr-2" />
-              Log Out
-            </Button>
+            <DropdownMenu>
+              <DropdownMenuTrigger>
+                <Avatar>
+                  <AvatarImage src="https://github.com/shadcn.png" />
+                  <AvatarFallback>User</AvatarFallback>
+                </Avatar>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent>
+                <DropdownMenuLabel>
+                  {user?.name}{' '}
+                  <Badge 
+                    className= {user?.role === 'admin' ? `bg-purple-600` : `bg-blue-600`}
+                  >
+                    {user?.role}
+                  </Badge>
+                </DropdownMenuLabel>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem>Profile</DropdownMenuItem>
+                <DropdownMenuItem>Dashboard</DropdownMenuItem>
+                <DropdownMenuItem>Shop</DropdownMenuItem>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem
+                  className="cursor-pointer"
+                  onClick={() => {
+                    handleLogOut();
+                    setMenuOpen(false);
+                  }}
+                >
+                  <LogOut />
+                  <span>Log Out</span>
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
           ) : (
             <Link href="/login">
               <CustomButton textName="Login" className="py-1!" />
             </Link>
           )}
-          <Link href={'/cart'}>
-          <ShoppingCart className="cursor-pointer" />
+          <Link href={"/cart"}>
+            <ShoppingCart className="cursor-pointer" />
           </Link>
-          <DropdownMenu>
-            <DropdownMenuTrigger>
-              <Avatar>
-                <AvatarImage src="https://github.com/shadcn.png" />
-                <AvatarFallback>User</AvatarFallback>
-              </Avatar>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent>
-              <DropdownMenuLabel>My Account</DropdownMenuLabel>
-              <DropdownMenuSeparator />
-              <DropdownMenuItem>Profile</DropdownMenuItem>
-              <DropdownMenuItem>Dashboard</DropdownMenuItem>
-              <DropdownMenuItem>Shop</DropdownMenuItem>
-              <DropdownMenuSeparator />
-              <DropdownMenuItem
-                className="cursor-pointer"
-                onClick={handleLogOut}
-              >
-                <LogOut />
-                <span>Log Out</span>
-              </DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
         </nav>
 
         {/* Mobile Menu Icon */}
@@ -119,8 +121,8 @@ const Navbar = () => {
           >
             {menuOpen ? <X size={24} /> : <Menu size={24} />}
           </Button>
-          <Link href={'/cart'}>
-          <ShoppingCart className="cursor-pointer" />
+          <Link href={"/cart"}>
+            <ShoppingCart className="cursor-pointer" />
           </Link>
         </div>
       </div>
@@ -163,7 +165,7 @@ const Navbar = () => {
                 </Button>
               </Link>
             )}
-          </div>   
+          </div>
         </div>
       )}
     </header>
