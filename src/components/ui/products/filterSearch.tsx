@@ -19,7 +19,7 @@ const FilterSearch = ({
 
   useEffect(() => {
     const fetchMedicines = async () => {
-      const res = await getAllProductsNoPage();
+      const res = await getAllProductsNoPage("1", "100"); // Fetch all products
       setAllMedicines(res?.data?.result || []);
 
       const categoriesList = [

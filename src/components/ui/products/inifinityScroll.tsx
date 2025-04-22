@@ -55,13 +55,13 @@ const InfiniteProductList = ({ filters }: { filters: Record<string, any> }) => {
         endMessage={
           <p className="text-center py-4 text-gray-500">
             {products.length === 0 ? (
-              <p className="text-center text-5xl text-gray-500 mt-4">
+              <span className="text-center text-5xl text-gray-500 mt-4">
                 No Product Found!!
-              </p>
+              </span>
             ) : (
-              <p className="text-center  text-gray-500 mt-4">
+              <span className="text-center  text-gray-500 mt-4">
                 Yay! You have seen it all
-              </p>
+              </span>
             )}
           </p>
         }

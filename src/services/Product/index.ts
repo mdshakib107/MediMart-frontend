@@ -35,10 +35,10 @@ export const getAllProducts = async (
 };
 
 // get all products No Pagination
-export const getAllProductsNoPage = async () => {
+export const getAllProductsNoPage = async (page: string, limit: string) => {
   try {
     const res = await fetch(
-      `${process.env.NEXT_PUBLIC_BASE_API}/medicines/all`,
+      `${process.env.NEXT_PUBLIC_BASE_API}/medicines?page=${page}&limit=${limit}`,
       {
         next: {
           tags: ["PRODUCT"],

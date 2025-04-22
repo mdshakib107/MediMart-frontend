@@ -1,9 +1,8 @@
 import { getAllProductsNoPage } from "@/services/Product";
 import { TMedicine } from "@/types";
 import ProductCard from "./productCard";
-
 const RelatedProducts = async ({ medicine }: { medicine: TMedicine }) => {
-  const data = await getAllProductsNoPage(); // Fetch all products
+  const data = await getAllProductsNoPage("1", "100"); // Fetch all products
   const allMedicines = data?.data?.result;
   const relatedMedicines = allMedicines
     ?.filter((nmedicine: TMedicine) =>
