@@ -1,68 +1,126 @@
-// components/ui/products/FilterSearch.tsx
+"use client";
 
-import { useState } from "react";
-
-interface FilterSearchProps {
-  onSearch: (searchTerm: string) => void;
-  onCategoryChange: (category: string) => void;
-  onSymptomChange: (symptom: string) => void;
-}
+import { getAllProductsNoPage } from "@/services/Product";
+import { TMedicine } from "@/types";
+import { useEffect, useState } from "react";
+import { toast } from "sonner";
 
 const FilterSearch = ({
-  onSearch,
-  onCategoryChange,
-  onSymptomChange,
-}: FilterSearchProps) => {
+  onFilterChange,
+}: {
+  onFilterChange: (filters: any) => void;
+}) => {
   const [searchTerm, setSearchTerm] = useState("");
-  const [category, setCategory] = useState("");
-  const [symptom, setSymptom] = useState("");
+  const [allMedicines, setAllMedicines] = useState([]);
+  const [categories, setCategories] = useState<string[]>([]);
+  const [symptoms, setSymptoms] = useState<string[]>([]);
+  const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
+  const [selectedSymptoms, setSelectedSymptoms] = useState<string[]>([]);
 
-  // Handle changes in search, category, and symptom filters
-  const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setSearchTerm(e.target.value);
-    onSearch(e.target.value); // Pass search term to parent
+  useEffect(() => {
+    const fetchMedicines = async () => {
+      const res = await getAllProductsNoPage("1", "100"); // Fetch all products
+      setAllMedicines(res?.data?.result || []);
+
+      const categoriesList = [
+        ...new Set(
+          res?.data?.result.map((item: TMedicine) => item.dosCategory)
+        ),
+      ];
+      const symptomsList = [
+        ...new Set(res?.data?.result.map((item: TMedicine) => item.symptoms)),
+      ];
+
+      setCategories(categoriesList as string[]);
+      setSymptoms(symptomsList as string[]);
+    };
+
+    fetchMedicines();
+  }, []);
+
+  const handleApply = () => {
+    onFilterChange({
+      searchTerm,
+      category: selectedCategories.join(","),
+      symptoms: selectedSymptoms.join(","),
+    });
+    toast.success("Filters applied successfully!");
   };
 
-  const handleCategoryChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setCategory(e.target.value);
-    onCategoryChange(e.target.value); // Pass category filter to parent
+  const handleReset = () => {
+    setSearchTerm("");
+    setSelectedCategories([]);
+    setSelectedSymptoms([]);
+    onFilterChange({
+      searchTerm: "",
+      category: "",
+      symptoms: "",
+    });
+    toast.success("Filters reset successfully!");
+  };
+  const handleCategorySelect = (value: string) => {
+    setSelectedCategories((prev) => (prev.includes(value) ? [] : [value]));
   };
 
-  const handleSymptomChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setSymptom(e.target.value);
-    onSymptomChange(e.target.value); // Pass symptom filter to parent
+  const handleSymptomSelect = (value: string) => {
+    setSelectedSymptoms((prev) => (prev.includes(value) ? [] : [value]));
   };
 
   return (
-    <div className="mb-6">
-      <div className="mb-4">
-        <input
-          type="text"
-          placeholder="Search by Name"
-          value={searchTerm}
-          onChange={handleSearchChange}
-          className="border p-2 rounded-md w-full"
-        />
+    <div className="p-6 space-y-6 border rounded-lg shadow-lg bg-white  shadow-blue-200 transition-all duration-500 ease-in-out hover:-translate-y-2 hover:shadow-lg  border-gray-200">
+      <input
+        className="input input-bordered w-full"
+        type="text"
+        placeholder="🔍 Search by name..."
+        value={searchTerm}
+        onChange={(e) => setSearchTerm(e.target.value)}
+      />
+
+      {/* Category Filter */}
+      <div>
+        <label className="block text-lg font-semibold mb-2">
+          🧪 Categories
+        </label>
+        <div className="max-h-40 overflow-y-auto space-y-1">
+          {categories.map((category) => (
+            <label key={category} className="flex items-center space-x-2">
+              <input
+                type="checkbox"
+                checked={selectedCategories.includes(category)}
+                onChange={() => handleCategorySelect(category)}
+                className="checkbox checkbox-sm"
+              />
+              <span>{category}</span>
+            </label>
+          ))}
+        </div>
       </div>
 
-      <div className="mb-4">
-        <input
-          type="text"
-          placeholder="Filter by Category"
-          value={category}
-          onChange={handleCategoryChange}
-          className="border p-2 rounded-md w-full"
-        />
+      {/* Symptoms Filter */}
+      <div>
+        <label className="block text-lg font-semibold mb-2">💊 Symptoms</label>
+        <div className="max-h-40 overflow-y-auto space-y-1">
+          {symptoms.map((symptom) => (
+            <label key={symptom} className="flex items-center space-x-2">
+              <input
+                type="checkbox"
+                checked={selectedSymptoms.includes(symptom)}
+                onChange={() => handleSymptomSelect(symptom)}
+                className="checkbox checkbox-sm"
+              />
+              <span>{symptom}</span>
+            </label>
+          ))}
+        </div>
       </div>
 
-      <div className="mb-4">
-        <input
-          type="text"
-          placeholder="Filter by Symptoms"
-          value={symptom}
-          onChange={handleSymptomChange}
-          className="border p-2 rounded-md w-full"
-        />
+      <div className="flex gap-4 justify-end">
+        <button className="btn btn-primary" onClick={handleApply}>
+          ✅ Apply
+        </button>
+        <button className="btn btn-outline" onClick={handleReset}>
+          🔄 Reset
+        </button>
       </div>
     </div>
   );
