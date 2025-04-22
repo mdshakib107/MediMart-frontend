@@ -1,11 +1,9 @@
-import { getAllProducts } from "@/services/Product";
+import { getAllProductsNoPage } from "@/services/Product";
 import { TMedicine } from "@/types";
 import ProductCard from "./productCard";
-
 const RelatedProducts = async ({ medicine }: { medicine: TMedicine }) => {
-  const data = await getAllProducts("1", "1000"); // Fetch all products
+  const data = await getAllProductsNoPage("1", "100"); // Fetch all products
   const allMedicines = data?.data?.result;
-  console.log("all", allMedicines);
   const relatedMedicines = allMedicines
     ?.filter((nmedicine: TMedicine) =>
       nmedicine.symptoms.toLowerCase().includes(medicine.symptoms.toLowerCase())
