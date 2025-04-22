@@ -1,4 +1,4 @@
-import InfiniteProductList from "@/components/ui/products/inifinityScroll";
+import AllProducts from "@/components/ui/products/AllProduct";
 
 export const metadata = {
   title: "MediMart | Shop",
@@ -8,8 +8,7 @@ export const metadata = {
 const ShopPage = () => {
   return (
     <div className="p-8">
-      <h1 className="text-3xl font-semibold text-center mb-8">Medicines</h1>
-      <InfiniteProductList />
+      <AllProducts />
     </div>
   );
 };
