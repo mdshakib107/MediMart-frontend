@@ -1,4 +1,4 @@
-import AllProducts from "@/components/ui/products/AllProduct";
+import AllProducts from "@/components/modules/products/AllProduct";
 
 export const metadata = {
   title: "MediMart | Shop",
