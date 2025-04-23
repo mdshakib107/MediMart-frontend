@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
 import Loading from "@/components/shared/Loading";
@@ -33,6 +34,7 @@ const InfiniteProductList = ({ filters }: { filters: Record<string, any> }) => {
         setProducts(newProducts);
       }
 
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       setHasMore((prev) => products.length + newProducts.length < total);
     } catch (error) {
       console.error("Error fetching products:", error);
