@@ -212,10 +212,10 @@ The **Medicine E-Commerce Shop** is an online platform where users can browse, s
   npm i redux-persist
   ```
 
-- Install [@lottiefiles/dotlottie-react](https://www.npmjs.com/package/@lottiefiles/dotlottie-react) for rendering lottie json file
+- Install [redux-persist.js](https://www.npmjs.com/package/redux-persist) 
 
   ```bash
-  npm i @lottiefiles/dotlottie-react
+  npm i swiper
   ```
 
 <br>
