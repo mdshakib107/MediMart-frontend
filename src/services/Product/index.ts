@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use server";
 
 // get all products with filters
@@ -21,24 +22,6 @@ export const getAllProducts = async (
 
     const res = await fetch(
       `${process.env.NEXT_PUBLIC_BASE_API}/medicines?${queryParams.toString()}`,
-      {
-        next: {
-          tags: ["PRODUCT"],
-        },
-      }
-    );
-    const data = await res.json();
-    return data;
-  } catch (error: any) {
-    return Error(error.message);
-  }
-};
-
-// get all products No Pagination
-export const getAllProductsNoPage = async (page: string, limit: string) => {
-  try {
-    const res = await fetch(
-      `${process.env.NEXT_PUBLIC_BASE_API}/medicines?page=${page}&limit=${limit}`,
       {
         next: {
           tags: ["PRODUCT"],

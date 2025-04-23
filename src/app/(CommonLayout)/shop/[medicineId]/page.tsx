@@ -1,4 +1,4 @@
-import ProductDetails from "@/components/ui/products/productDetailsCard";
+import ProductDetails from "@/components/modules/products/productDetailsCard";
 import { getSingleProduct } from "@/services/Product";
 
 const MedicineDetailsPage = async ({
