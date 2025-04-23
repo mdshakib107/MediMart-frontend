@@ -5,8 +5,8 @@ export const makeStore = () => {
   return configureStore({
    // reducer: {},
     reducer: {
-    counter: counterReducer,
-    }
+    counter: counterReducer
+    },
   })
 }
 
