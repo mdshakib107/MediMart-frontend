@@ -13,7 +13,8 @@ const roleBasedPrivateRoutes = {
 export const middleware = async (request: NextRequest) => {
   const { pathname } = request.nextUrl;
 
-  const userInfo = await getCurrentUser();
+  const res = await getCurrentUser();
+  const userInfo = res?.userData;
 
   if (!userInfo) {
     if (authRoutes.includes(pathname)) {

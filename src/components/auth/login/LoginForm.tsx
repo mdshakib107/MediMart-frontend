@@ -13,24 +13,33 @@ import {
 import { Input } from "@/components/ui/input";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
-import { useRouter, useSearchParams } from "next/navigation";
+import { 
+  // useRouter, 
+  useSearchParams 
+} from "next/navigation";
 import { useState } from "react";
 import ReCAPTCHA from "react-google-recaptcha";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { loginSchema } from "./loginValidation";
 import { loginUser, reCaptchaTokenVerification } from "@/services/AuthService";
+import { EyeClosed, Eye } from "lucide-react";
 
 export default function LoginForm() {
+
+  // react hook form
   const form = useForm({
     resolver: zodResolver(loginSchema),
   });
+
+  // toggle password
+  const [showPassword, setShowPassword] = useState(false);
 
   const [reCaptchaStatus, setReCaptchaStatus] = useState(false);
 
   const searchParams = useSearchParams();
   const redirect = searchParams.get("redirectPath");
-  const router = useRouter();
+  // const router = useRouter();
 
   const {
     formState: { isSubmitting },
@@ -48,15 +57,20 @@ export default function LoginForm() {
   };
 
   const onSubmit: SubmitHandler<FieldValues> = async (data) => {
+
+    // reCaptchaStatus check
+    if (!reCaptchaStatus) {
+      toast.error("Please complete the reCAPTCHA first.");
+      return; // Block submission
+    }
+
     try {
       const res = await loginUser(data);
-      if (res?.success) {
+      if (res?.success  ) {
         toast.success(res?.message);
-        if (redirect) {
-          router.push(redirect);
-        } else {
-          router.push("/profile");
-        }
+        window.location.href = redirect || "/";
+
+        // router.push(redirect || "/");
       } else {
         toast.error(res?.message);
       }
@@ -96,7 +110,20 @@ export default function LoginForm() {
               <FormItem>
                 <FormLabel>Password</FormLabel>
                 <FormControl>
-                  <Input type="password" {...field} value={field.value || ""} />
+                  <div className="relative">
+                    <Input
+                      type={showPassword ? "text" : "password"}
+                      {...field}
+                      value={field.value || ""}
+                    />
+                    <button
+                      type="button"
+                      className="absolute right-3 top-1/2 -translate-y-1/2 text-sm text-gray-600"
+                      onClick={() => setShowPassword((prev) => !prev)}
+                    >
+                      {showPassword ? <Eye /> : <EyeClosed />}
+                    </button>
+                  </div>
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -107,6 +134,7 @@ export default function LoginForm() {
             <ReCAPTCHA
               sitekey={process.env.NEXT_PUBLIC_RECAPTCHA_CLIENT_KEY!}
               onChange={handleReCaptcha}
+              onExpired={() => setReCaptchaStatus(false)}
               className="mx-auto"
             />
           </div>

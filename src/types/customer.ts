@@ -1,10 +1,14 @@
 export interface IUser {
-    userId: string;
+    _id?: string;
     name: string;
     email: string;
-    hasShop?: boolean;
-    isActive?: boolean;
-    role: "user" | "admin";
+    role: "admin" | "customer";
+    status: "active" | "inactive";
+    needsPasswordChange?: boolean;
+    passwordChangedAt?: string;
+    createdAt?: string;
+    updatedAt?: string;
+    image?: string;
     iat?: number;
     exp?: number;
-  }
+}
