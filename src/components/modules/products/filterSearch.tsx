@@ -1,6 +1,6 @@
 "use client";
 
-import { getAllProducts } from "@/services/Product";
+import { getAllProducts } from "@/services/product";
 import { TMedicine } from "@/types";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
