@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { useUser } from "@/contexts/UserContext";
 import { LogOut, Menu, ShoppingCart, X } from "lucide-react";
 import Link from "next/link";
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname } from "next/navigation";
 import { useState } from "react";
 
 import CustomButton from "./CustomButton";
@@ -34,15 +34,16 @@ const navItems = [
 const Navbar = () => {
   // using hooks
   const [menuOpen, setMenuOpen] = useState(false);
-  const { user, setIsLoading } = useUser();
+  const { user, setUser, setIsLoading } = useUser();
   const pathname = usePathname();
-  const router = useRouter();
+  // const router = useRouter();
 
-  const handleLogOut = () => {
-    logout();
+  const handleLogOut = async () => {
+    await logout();
+    setUser(null);
     setIsLoading(true);
     if (protectedRoutes.some((route) => pathname.match(route))) {
-      router.push("/");
+      window.location.href = "/"; 
     }
   };
 
@@ -86,7 +87,11 @@ const Navbar = () => {
                   </Badge>
                 </DropdownMenuLabel>
                 <DropdownMenuSeparator />
-                <DropdownMenuItem>Profile</DropdownMenuItem>
+                <DropdownMenuItem>
+                  <Link href={user?.role === 'admin' ? `/admin` : `/customer`}>
+                    Profile
+                  </Link>
+                </DropdownMenuItem>
                 <DropdownMenuItem>Dashboard</DropdownMenuItem>
                 <DropdownMenuItem>Shop</DropdownMenuItem>
                 <DropdownMenuSeparator />
