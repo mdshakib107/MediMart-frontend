@@ -6,6 +6,9 @@
 
 The **Medicine E-Commerce Shop** is an online platform where users can browse, search, and purchase medicines. The platform will have user authentication, an intuitive shopping experience, secure payment integration, and an order-tracking system. The shop will sell medicines only and will comply with necessary regulations regarding prescription-based purchases.
 
+## 🌐 Live URL: 
+[MediMart💊]()
+
 ## Key Features:
 
 ### **User Authentication:**
