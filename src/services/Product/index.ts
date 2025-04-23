@@ -34,24 +34,6 @@ export const getAllProducts = async (
   }
 };
 
-// get all products No Pagination
-export const getAllProductsNoPage = async (page: string, limit: string) => {
-  try {
-    const res = await fetch(
-      `${process.env.NEXT_PUBLIC_BASE_API}/medicines?page=${page}&limit=${limit}`,
-      {
-        next: {
-          tags: ["PRODUCT"],
-        },
-      }
-    );
-    const data = await res.json();
-    return data;
-  } catch (error: any) {
-    return Error(error.message);
-  }
-};
-
 // get single product
 export const getSingleProduct = async (productId: string) => {
   try {

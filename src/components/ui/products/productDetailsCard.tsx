@@ -34,6 +34,9 @@ const ProductDetails = async ({ medicine }: { medicine: TMedicine }) => {
             src={medicine?.Img as string}
             alt={medicine?.name}
             fill
+            sizes="(max-width: 768px) 100vw,
+               (max-width: 1200px) 50vw,
+               33vw"
             className="object-cover rounded-md transition-transform duration-300 group-hover:scale-110"
           />
         </div>
@@ -54,32 +57,33 @@ const ProductDetails = async ({ medicine }: { medicine: TMedicine }) => {
           {/* Pricing */}
           <div className="space-y-1">
             <p className="line-through text-lg text-red-700 font-semibold">
-              Privious Price: ৳{originalPrice}
+              💸Previous Price: ${originalPrice}
             </p>
             <p className="text-lg font-semibold text-green-700">
-              Current Price: ৳{medicine?.price}
+              💰Current Price: ${medicine?.price}
             </p>
             <p className="text-sm text-blue-600 font-medium">
-              You save: ৳{savings}
+              You Save: 🎉${savings}
             </p>
           </div>
 
           {/* Extra Info */}
           <div className="text-sm text-gray-700 space-y-1">
             <p>
-              <strong>Brand:</strong> {medicine?.brand}
+              <strong>🏷️Brand: </strong> {medicine?.brand}
             </p>
             <p>
-              <strong>Strength:</strong> {medicine?.strength}
+              <strong>💪Healthcare Pharmaceuticals Strength: </strong>{" "}
+              {medicine?.strength}
             </p>
             <p>
-              <strong>Dosage Form:</strong> {medicine?.dosCategory}
+              <strong>💊Dosage Form:</strong> {medicine?.dosCategory}
             </p>
             <p>
-              <strong>Quantity:</strong> {medicine?.quantity} pcs
+              <strong>📦Quantity: </strong> {medicine?.quantity} pcs
             </p>
             <p>
-              <strong>Prescription Required:</strong>{" "}
+              <strong>📝Prescription Required:</strong>{" "}
               {medicine?.requiredPrescription}
             </p>
             <p className="flex items-center gap-2">

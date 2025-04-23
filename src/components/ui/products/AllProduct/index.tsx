@@ -26,7 +26,7 @@ const AllProducts = () => {
 
         {/* Right 20%: Filter Sidebar */}
         <div className="lg:col-span-1">
-          <div className="sticky top-24">
+          <div className="sticky top-2">
             <FilterSearch onFilterChange={handleFilterChange} />
           </div>
         </div>
