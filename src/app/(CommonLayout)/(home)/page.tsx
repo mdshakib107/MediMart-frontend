@@ -1,5 +1,6 @@
 import FeaturedSection from "@/components/modules/home/FeaturedSection/FeaturedSection";
 import HeroSection from "@/components/modules/home/HeroSection";
+import TestimonialSection from "@/components/modules/home/Testimonials/TestimonialSections";
 
 const HomePage = () => {
   return (
@@ -7,7 +8,8 @@ const HomePage = () => {
       {/* <Navbar /> */}
       <main className="min-h-screen">
         <HeroSection />
-        <FeaturedSection/> 
+        <FeaturedSection/>
+        <TestimonialSection/> 
       </main>
       {/* <Footer /> */}
     </>
