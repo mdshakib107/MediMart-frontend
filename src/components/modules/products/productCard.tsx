@@ -1,11 +1,20 @@
 // components/ProductCard.tsx
 import { Button } from "@/components/ui/button";
+import { addProduct } from "@/redux/features.ts/cartSlice";
+import { useAppDispatch } from "@/redux/hooks";
 import { TMedicine } from "@/types";
 import { ShoppingCart, Zap } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 
 const ProductCard = ({ medicine }: { medicine: TMedicine }) => {
+
+  const dispatch = useAppDispatch();
+
+  const handleAddProduct = (medicine: TMedicine) => {
+    dispatch(addProduct(medicine));
+  };
+
   return (
     <div className="">
       {/* Card Container */}
@@ -38,6 +47,7 @@ const ProductCard = ({ medicine }: { medicine: TMedicine }) => {
             </Button>
           </Link>
           <Button
+            onClick={() => handleAddProduct(medicine)}
             variant="outline"
             className="flex items-center gap-2 cursor-pointer"
           >
