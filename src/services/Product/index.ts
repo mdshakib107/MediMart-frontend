@@ -94,20 +94,21 @@ export const updateProduct = async (
     return Error(error.message);
   }
 };
-// delete a product
-export const deleteProduct = async (productId: string) => {
+// ✅ Updated deleteProduct function
+export const deleteProduct = async (productId: string, token: string) => {
   try {
     const res = await fetch(
       `${process.env.NEXT_PUBLIC_BASE_API}/medicines/${productId}`,
       {
         method: "DELETE",
         headers: {
-          Authorization: `Bearer ${localStorage.getItem("authToken")}`,
+          Authorization: `Bearer ${token}`,
         },
       }
     );
 
     const data = await res.json();
+    console.log("DELETE response:", data);
     return data;
   } catch (error: any) {
     return Error(error.message);

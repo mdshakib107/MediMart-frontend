@@ -1,6 +1,6 @@
 "use client";
 
-import { getAllProducts } from "@/services/product";
+import { deleteProduct, getAllProducts } from "@/services/product";
 import { TMedicine } from "@/types";
 import { PencilIcon, TrashIcon } from "lucide-react";
 import Link from "next/link";
@@ -116,12 +116,43 @@ const ManageMedicine = () => {
                     </span>
                   </td>
                   <td className=" text-center">
-                    <Link href={`/admin/medicines/edit/${med._id}`}>
+                    <Link href={`/admin/medicines/${med._id}`}>
                       <PencilIcon className="h-5 w-5 text-blue-600 hover:text-blue-800 cursor-pointer transition" />
                     </Link>
                   </td>
                   <td className="text-center">
-                    <button>
+                    <button
+                      onClick={async () => {
+                        if (!med._id) return;
+                        const confirmDelete = confirm(
+                          "Are you sure you want to delete this medicine?"
+                        );
+                        if (!confirmDelete) return;
+
+                        const token = localStorage.getItem("authToken");
+                        if (!token) {
+                          alert("No auth token found.");
+                          return;
+                        }
+
+                        try {
+                          const res = await deleteProduct(med._id, token);
+                          if (
+                            res?.success ||
+                            res?.message?.toLowerCase().includes("delete")
+                          ) {
+                            setMedicines((prev) =>
+                              prev.filter((m) => m._id !== med._id)
+                            );
+                          } else {
+                            alert("Failed to delete the medicine.");
+                          }
+                        } catch (error) {
+                          console.error("Delete error:", error);
+                          alert("Something went wrong while deleting.");
+                        }
+                      }}
+                    >
                       <TrashIcon className="h-5 w-5 text-red-600 hover:text-red-800 cursor-pointer transition" />
                     </button>
                   </td>
