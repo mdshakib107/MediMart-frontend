@@ -46,7 +46,7 @@ const Navbar = () => {
     }
   };
 
-  console.log(user)
+  // console.log(user)
 
   return (
     <header className="w-full border-b bg-white dark:bg-black sticky top-0 z-50 px-2">

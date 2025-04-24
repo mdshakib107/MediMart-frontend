@@ -30,7 +30,7 @@ const ProductCard = ({ medicine }: { medicine: TMedicine }) => {
             View Details
           </Button>
         </Link>
-        <Button variant="outline" className="flex items-center gap-2">
+        <Button onClick={()=> console.log(medicine)} variant="outline" className="flex items-center gap-2">
           <ShoppingCart className="w-5 h-5" />
           Add to Cart
         </Button>

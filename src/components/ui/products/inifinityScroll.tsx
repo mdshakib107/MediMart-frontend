@@ -23,7 +23,7 @@ const InfiniteProductList = ({ filters }: { filters: Record<string, any> }) => {
 
     const newProducts = res?.data?.result || [];
     const total = res?.data?.meta?.total || 0;
-    console.log(newProducts);
+    // console.log(newProducts);
     if (concat) {
       setProducts((prev) => [...prev, ...newProducts]);
     } else {
