@@ -12,7 +12,7 @@ import "swiper/css/pagination";
 const testimonials = [
   {
     id: 1,
-    name: "Mr. ",
+    name: "Mr. Jobaer",
     role: "Regular Customer",
     quote:
       "MediMart has made managing my health so much easier. Their fast delivery and top-notch service always impress me!",
