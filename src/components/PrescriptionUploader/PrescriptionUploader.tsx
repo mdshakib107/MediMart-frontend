@@ -1,8 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import axios from 'axios';
-import toast from 'react-hot-toast';
+import { toast } from 'sonner';
 
 interface Props {
   orderId: string;
@@ -30,15 +29,17 @@ export default function PrescriptionUploader({ orderId, prescriptionUrl, onUploa
 
     setUploading(true);
     try {
-      // Make POST request to the backend API
-      await axios.post('/api/orders/create-order', formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-        },
+      const response = await fetch('/api/orders/create-order', {
+        method: 'POST',
+        body: formData,
       });
 
+      if (!response.ok) {
+        throw new Error('Failed to upload prescription');
+      }
+
       toast.success('Prescription uploaded successfully!');
-      onUploaded(); 
+      onUploaded();
     } catch (error) {
       console.error(error);
       toast.error('Upload failed!');

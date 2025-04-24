@@ -1,6 +1,7 @@
 "use client";
 
-import { getAllProducts } from "@/services/product";
+
+import { getAllProducts } from "@/services/Product";
 import { TMedicine } from "@/types";
 import { PencilIcon, TrashIcon } from "lucide-react";
 import Link from "next/link";
