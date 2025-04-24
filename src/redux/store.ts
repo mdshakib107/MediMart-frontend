@@ -4,10 +4,10 @@ import { configureStore } from "@reduxjs/toolkit";
 export const makeStore = () => {
   return configureStore({
     reducer: {
-    counter: counterReducer
+      counter: counterReducer
     },
-  })
-}
+  });
+};
 
 // Infer the type of makeStore
 export type AppStore = ReturnType<typeof makeStore>;
