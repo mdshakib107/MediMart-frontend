@@ -53,6 +53,7 @@ const cartSlice = createSlice({
   name: "cart",
   initialState,
   reducers: {
+    //* add
     addProduct: (state, action) => {
       console.log("clicked", { state, action });
       const existingProductIndex = state.medicines.findIndex(
@@ -70,9 +71,38 @@ const cartSlice = createSlice({
       // Save updated state to localStorage
       saveCartToLocalStorage(state);
     },
+
+    //* plus
+    incrementQuantity: (state, action) => {
+      const product = state.medicines.find((p) => p._id === action.payload);
+      if (product) {
+        product.orderQuantity += 1;
+        saveCartToLocalStorage(state);
+      }
+    },
+
+    //* minus
+    decrementQuantity: (state, action) => {
+      const product = state.medicines.find((p) => p._id === action.payload);
+      if (product && product.orderQuantity > 1) {
+        product.orderQuantity -= 1;
+        saveCartToLocalStorage(state);
+      }
+    },
+
+    //* remove
+    removeProduct: (state, action) => {
+      state.medicines = state.medicines.filter((p) => p._id !== action.payload);
+      saveCartToLocalStorage(state);
+    },
   },
 });
 
-export const { addProduct } = cartSlice.actions;
+export const {
+  addProduct,
+  incrementQuantity,
+  decrementQuantity,
+  removeProduct,
+} = cartSlice.actions;
 
 export default cartSlice.reducer;

@@ -1,9 +1,18 @@
-import { CartProduct } from "@/redux/features.ts/cartSlice";
+"use client";
 import { Button } from "@/components/ui/button";
+import { useAppDispatch } from "@/redux/hooks";
+import {
+  incrementQuantity,
+  decrementQuantity,
+  removeProduct,
+  CartProduct,
+} from "@/redux/features.ts/cartSlice";
 import { Minus, Plus, Trash } from "lucide-react";
 import Image from "next/image";
 
 const CartProductCard = ({ product }: { product: CartProduct }) => {
+  const dispatch = useAppDispatch();
+
   return (
     <div className="bg-white rounded-lg flex p-5 gap-5">
       <div className="h-full w-32 rounded-md overflow-hidden">
@@ -11,21 +20,21 @@ const CartProductCard = ({ product }: { product: CartProduct }) => {
           src={product?.Img as string}
           height={200}
           width={200}
-          alt={product?.name}
+          alt={product.name}
           className="aspect-square object-cover"
         />
       </div>
       <div className="flex flex-col justify-between flex-grow">
-        <h1 className="text-xl font-semibold">{product?.name}</h1>
+        <h1 className="text-xl font-semibold">{product.name}</h1>
         <div className="flex gap-5 my-2">
           <p>
-            <span className="text-gray-500">Required Prescription:</span>{" "}
-            <span className="font-semibold">{product?.requiredPrescription}</span>
+            <span className="text-gray-500">Strength:</span>{" "}
+            <span className="font-semibold">{product.strength}</span>
           </p>
           <p>
-            <span className="text-gray-500">Strength:</span>{" "}
+            <span className="text-gray-500">Prescription Required:</span>{" "}
             <span className="font-semibold">
-              {product.strength}
+              {product.requiredPrescription}
             </span>
           </p>
         </div>
@@ -36,16 +45,28 @@ const CartProductCard = ({ product }: { product: CartProduct }) => {
           </h2>
           <div className="flex items-center gap-2">
             <p className="text-gray-500 font-semibold">Quantity</p>
-            <Button variant="outline" className="size-8 rounded-sm">
+            <Button
+              onClick={() => dispatch(decrementQuantity(product._id))}
+              variant="outline"
+              className="size-8 rounded-sm"
+            >
               <Minus />
             </Button>
             <p className="font-semibold text-xl p-2">
               {product?.orderQuantity}
             </p>
-            <Button variant="outline" className="size-8 rounded-sm">
+            <Button
+              onClick={() => dispatch(incrementQuantity(product._id))}
+              variant="outline"
+              className="size-8 rounded-sm"
+            >
               <Plus />
             </Button>
-            <Button variant="outline" className="size-8 rounded-sm">
+            <Button
+              onClick={() => dispatch(removeProduct(product._id))}
+              variant="outline"
+              className="size-8 rounded-sm"
+            >
               <Trash className="text-red-500/50" />
             </Button>
           </div>
