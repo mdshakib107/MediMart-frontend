@@ -45,8 +45,8 @@ export const config = {
     "/login",
     "/admin",
     "/admin/:page",
-    "/user",
-    "/user/:page",
+    "/customer",
+    "/customer/:page",
     
   ],
 };
