@@ -1,4 +1,4 @@
-import { getAllProducts } from "@/services/Product";
+import { getAllProducts } from "@/services/product";
 import { TMedicine } from "@/types";
 import ProductCard from "./productCard";
 const RelatedProducts = async ({ medicine }: { medicine: TMedicine }) => {

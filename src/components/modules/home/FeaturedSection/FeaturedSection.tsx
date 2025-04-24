@@ -2,7 +2,7 @@
 "use client";
 
 import Loading from "@/components/shared/Loading";
-import { getAllProducts } from "@/services/Product";
+import { getAllProducts } from "@/services/product";
 import { TMedicine } from "@/types";
 import { useEffect, useState } from "react";
 import ProductCard from "../../products/productCard";
