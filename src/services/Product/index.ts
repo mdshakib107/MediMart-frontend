@@ -73,7 +73,8 @@ export const createProduct = async (productData: Record<string, any>) => {
 // update a product
 export const updateProduct = async (
   productId: string,
-  updatedData: Record<string, any>
+  updatedData: Record<string, any>,
+  token: string
 ) => {
   try {
     const res = await fetch(
@@ -82,7 +83,7 @@ export const updateProduct = async (
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${localStorage.getItem("authToken")}`,
+          Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify(updatedData),
       }
