@@ -5,14 +5,14 @@
 import Image from "next/image";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Pagination, Autoplay } from "swiper/modules";
-
+import 'swiper/css/autoplay';
 import "swiper/css";
 import "swiper/css/pagination";
 
 const testimonials = [
   {
     id: 1,
-    name: "Mr. Jobaer",
+    name: "Mr. ",
     role: "Regular Customer",
     quote:
       "MediMart has made managing my health so much easier. Their fast delivery and top-notch service always impress me!",
