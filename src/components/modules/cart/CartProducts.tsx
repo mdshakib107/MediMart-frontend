@@ -1,9 +1,9 @@
 "use client";
-import { useAppSelector } from "@/redux/hooks";
-import CartProductCard from "./CartProductCard";
-import Image from "next/image";
 import emptyCart from "@/assets/images/placeholder/empty-cart.png"; // or wherever your image is
-import { CartProduct } from "@/redux/features.ts/cartSlice";
+import { CartProduct } from "@/redux/features/cartSlice";
+import { useAppSelector } from "@/redux/hooks";
+import Image from "next/image";
+import CartProductCard from "./CartProductCard";
 
 const CartProducts = () => {
   const products = useAppSelector((state) => state.cart.medicines);

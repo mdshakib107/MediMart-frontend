@@ -1,18 +1,17 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import counterReducer from "@/redux/features.ts/counterSlice";
+import counterReducer from "@/redux/features/counterSlice";
 import { configureStore } from "@reduxjs/toolkit";
-import cartSlice from "./features.ts/cartSlice";
 import {
-  persistReducer,
   FLUSH,
-  REHYDRATE,
   PAUSE,
   PERSIST,
+  persistReducer,
   PURGE,
   REGISTER,
+  REHYDRATE,
 } from "redux-persist";
+import cartSlice from "./features/cartSlice";
 import storage from "./storage";
-
 
 const persistOptions = {
   key: "cart",
