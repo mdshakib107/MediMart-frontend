@@ -1,6 +1,6 @@
 "use client";
 
-import { getAllProductsNoPage } from "@/services/Product";
+import { getAllProducts } from "@/services/product";
 import { TMedicine } from "@/types";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
@@ -19,7 +19,7 @@ const FilterSearch = ({
 
   useEffect(() => {
     const fetchMedicines = async () => {
-      const res = await getAllProductsNoPage("1", "100"); // Fetch all products
+      const res = await getAllProducts("1", "100", {}); // Fetch all products
       setAllMedicines(res?.data?.result || []);
 
       const categoriesList = [
@@ -45,6 +45,7 @@ const FilterSearch = ({
       symptoms: selectedSymptoms.join(","),
     });
     toast.success("Filters applied successfully!");
+    window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
   const handleReset = () => {
@@ -57,6 +58,7 @@ const FilterSearch = ({
       symptoms: "",
     });
     toast.success("Filters reset successfully!");
+    window.scrollTo({ top: 0, behavior: "smooth" });
   };
   const handleCategorySelect = (value: string) => {
     setSelectedCategories((prev) => (prev.includes(value) ? [] : [value]));
@@ -67,7 +69,7 @@ const FilterSearch = ({
   };
 
   return (
-    <div className="p-6 space-y-6 border rounded-lg shadow-lg bg-white  shadow-blue-200 transition-all duration-500 ease-in-out hover:-translate-y-2 hover:shadow-lg  border-gray-200">
+    <div className=" p-6 space-y-6 border rounded-lg shadow-lg bg-white  shadow-blue-200 transition-all duration-500 ease-in-out hover:-translate-y-2 hover:shadow-lg  border-gray-200">
       <input
         className="input input-bordered w-full"
         type="text"
