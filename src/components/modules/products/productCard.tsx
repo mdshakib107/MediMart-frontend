@@ -37,7 +37,7 @@ const ProductCard = ({ medicine }: { medicine: TMedicine }) => {
         </Link>
         {/* Buttons */}
         <div className="flex items-center mt-auto pt-4 space-x-4">
-          <Link href={`/shop/${medicine?._id}`} passHref>
+          {/* <Link href={`/shop/${medicine?._id}`} passHref> */}
             <Button
               variant="outline"
               className="flex items-center gap-2 cursor-pointer"
@@ -45,7 +45,7 @@ const ProductCard = ({ medicine }: { medicine: TMedicine }) => {
               <Zap className="w-5 h-5" />
               Buy Now
             </Button>
-          </Link>
+          {/* </Link> */}
           <Button
             onClick={() => handleAddProduct(medicine)}
             variant="outline"
