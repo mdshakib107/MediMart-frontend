@@ -1,7 +1,7 @@
-'use client';
+"use client";
 // components/ProductCard.tsx
 import { Button } from "@/components/ui/button";
-import { addProduct } from "@/redux/features.ts/cartSlice";
+import { addProduct } from "@/redux/features/cartSlice";
 import { useAppDispatch } from "@/redux/hooks";
 import { TMedicine } from "@/types";
 import { ShoppingCart, Zap } from "lucide-react";
@@ -9,7 +9,6 @@ import Image from "next/image";
 import Link from "next/link";
 
 const ProductCard = ({ medicine }: { medicine: TMedicine }) => {
-
   const dispatch = useAppDispatch();
 
   const handleAddProduct = (medicine: TMedicine) => {
@@ -39,13 +38,13 @@ const ProductCard = ({ medicine }: { medicine: TMedicine }) => {
         {/* Buttons */}
         <div className="flex items-center mt-auto pt-4 space-x-4">
           {/* <Link href={`/shop/${medicine?._id}`} passHref> */}
-            <Button
-              variant="outline"
-              className="flex items-center gap-2 cursor-pointer"
-            >
-              <Zap className="w-5 h-5" />
-              Buy Now
-            </Button>
+          <Button
+            variant="outline"
+            className="flex items-center gap-2 cursor-pointer"
+          >
+            <Zap className="w-5 h-5" />
+            Buy Now
+          </Button>
           {/* </Link> */}
           <Button
             onClick={() => handleAddProduct(medicine)}

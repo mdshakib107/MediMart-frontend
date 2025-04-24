@@ -1,12 +1,12 @@
 "use client";
 import { Button } from "@/components/ui/button";
-import { useAppDispatch } from "@/redux/hooks";
 import {
-  incrementQuantity,
-  decrementQuantity,
-  removeProduct,
   CartProduct,
-} from "@/redux/features.ts/cartSlice";
+  decrementQuantity,
+  incrementQuantity,
+  removeProduct,
+} from "@/redux/features/cartSlice";
+import { useAppDispatch } from "@/redux/hooks";
 import { Minus, Plus, Trash } from "lucide-react";
 import Image from "next/image";
 

@@ -11,8 +11,7 @@ interface InitialState {
   shippingAddress: string;
 }
 
-// helper function to load cart from local storage
-
+// Load from localStorage
 const loadCartFromLocalStorage = (): InitialState => {
   if (typeof window === "undefined") {
     return {
@@ -36,10 +35,9 @@ const loadCartFromLocalStorage = (): InitialState => {
   };
 };
 
+// Save to localStorage
 const saveCartToLocalStorage = (cart: InitialState) => {
-  if (typeof window === "undefined") {
-    return;
-  }
+  if (typeof window === "undefined") return;
   try {
     localStorage.setItem("cart", JSON.stringify(cart));
   } catch (error) {
@@ -53,26 +51,23 @@ const cartSlice = createSlice({
   name: "cart",
   initialState,
   reducers: {
-    //* add
+    //* Add product
     addProduct: (state, action) => {
-      console.log("clicked", { state, action });
       const existingProductIndex = state.medicines.findIndex(
         (item) => item._id === action.payload._id
       );
 
       if (existingProductIndex !== -1) {
-        // If the product already exists, update the quantity
-        state.medicines[existingProductIndex].orderQuantity += 1;
+        state.medicines[existingProductIndex].orderQuantity += 1; //? If the product already exists, update the quantity
       } else {
-        // Add new product with quantity = 1
-        state.medicines.push({ ...action.payload, orderQuantity: 1 });
+        state.medicines.push({ ...action.payload, orderQuantity: 1 }); //? Add new product with quantity = 1
       }
 
-      // Save updated state to localStorage
+      //? Save updated state to localStorage
       saveCartToLocalStorage(state);
     },
 
-    //* plus
+    //* Increment quantity
     incrementQuantity: (state, action) => {
       const product = state.medicines.find((p) => p._id === action.payload);
       if (product) {
@@ -81,7 +76,7 @@ const cartSlice = createSlice({
       }
     },
 
-    //* minus
+    //* Decrement quantity
     decrementQuantity: (state, action) => {
       const product = state.medicines.find((p) => p._id === action.payload);
       if (product && product.orderQuantity > 1) {
@@ -90,10 +85,36 @@ const cartSlice = createSlice({
       }
     },
 
-    //* remove
+    //* Remove product
     removeProduct: (state, action) => {
       state.medicines = state.medicines.filter((p) => p._id !== action.payload);
       saveCartToLocalStorage(state);
+    },
+
+    //* Set city
+    setCity: (state, action) => {
+      state.city = action.payload;
+      saveCartToLocalStorage(state);
+    },
+
+    //* Set shipping address
+    setShippingAddress: (state, action) => {
+      state.shippingAddress = action.payload;
+      saveCartToLocalStorage(state);
+    },
+
+    //* Clear only the products
+    clearCartItems: (state) => {
+      state.medicines = [];
+      saveCartToLocalStorage(state);
+    },
+
+    //* Reset entire cart (clear products, city, address) and remove from localStorage
+    resetCart: (state) => {
+      state.medicines = [];
+      state.city = "";
+      state.shippingAddress = "";
+      localStorage.removeItem("cart"); //? Completely clear localStorage
     },
   },
 });
@@ -103,6 +124,10 @@ export const {
   incrementQuantity,
   decrementQuantity,
   removeProduct,
+  setCity,
+  setShippingAddress,
+  clearCartItems,
+  resetCart,
 } = cartSlice.actions;
 
 export default cartSlice.reducer;
