@@ -25,6 +25,15 @@ const InfiniteProductList = ({ filters }: { filters: Record<string, any> }) => {
         filters
       );
 
+<<<<<<< HEAD:src/components/ui/products/inifinityScroll.tsx
+    const newProducts = res?.data?.result || [];
+    const total = res?.data?.meta?.total || 0;
+    // console.log(newProducts);
+    if (concat) {
+      setProducts((prev) => [...prev, ...newProducts]);
+    } else {
+      setProducts(newProducts);
+=======
       const newProducts = res?.data?.result || [];
       const total = res?.data?.meta?.total || 0;
 
@@ -40,6 +49,7 @@ const InfiniteProductList = ({ filters }: { filters: Record<string, any> }) => {
       console.error("Error fetching products:", error);
     } finally {
       setLoading(false);
+>>>>>>> 0576cb769557b754ece4b3a7f566847a5459410c:src/components/modules/products/inifinityScroll.tsx
     }
   };
 
