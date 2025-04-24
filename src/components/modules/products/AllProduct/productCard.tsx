@@ -1,3 +1,4 @@
+'use client';
 // components/ProductCard.tsx
 import { Button } from "@/components/ui/button";
 import { addProduct } from "@/redux/features.ts/cartSlice";

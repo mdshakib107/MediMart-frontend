@@ -1,13 +1,38 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import counterReducer from "@/redux/features.ts/counterSlice";
 import { configureStore } from "@reduxjs/toolkit";
 import cartSlice from "./features.ts/cartSlice";
+import {
+  persistReducer,
+  FLUSH,
+  REHYDRATE,
+  PAUSE,
+  PERSIST,
+  PURGE,
+  REGISTER,
+} from "redux-persist";
+import storage from "./storage";
+
+
+const persistOptions = {
+  key: "cart",
+  storage,
+};
+
+const persistedCart = persistReducer(persistOptions, cartSlice);
 
 export const makeStore = () => {
   return configureStore({
     reducer: {
-      cart: cartSlice,
+      cart: persistedCart,
       counter: counterReducer,
     },
+    middleware: (getDefaultMiddlewares: any) =>
+      getDefaultMiddlewares({
+        serializableCheck: {
+          ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
+        },
+      }),
   });
 };
 
