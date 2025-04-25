@@ -61,12 +61,13 @@ export const getSingleUser = async (id: string) => {
   }
 };
 
-export const updateUser = async (id: string, data: Record<string, any>) => {
+export const updateUser = async (id: string, data: Record<string, any>, token: string) => {
   try {
     const res = await fetch(`${API_BASE}/users/${id}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
       },
       body: JSON.stringify(data),
     });
