@@ -10,6 +10,8 @@ import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 import { useUser } from "@/contexts/UserContext";
 import { createOrder } from "@/services/cart";
+import { useState } from "react";
+import PrescriptionUploader from "@/components/PrescriptionUploader/PrescriptionUploader";
 
 // Optional currency formatter
 const currencyFormatter = (value: number) =>
@@ -39,11 +41,11 @@ const PaymentDetails = () => {
   const router = useRouter();
 
   //* state for prescription
-  // const [isPrescriptionUploaded, setPrescriptionUploaded] = useState(false);
+  const [isPrescriptionUploaded, setPrescriptionUploaded] = useState(false);
 
-  // const handlePrescriptionUpload = () => {
-  //   setPrescriptionUploaded(true);
-  // };
+  const handlePrescriptionUpload = () => {
+    setPrescriptionUploaded(true);
+  };
 
   const subTotal = cart.medicines.reduce(
     (total: number, product: CartProduct) =>
@@ -54,29 +56,29 @@ const PaymentDetails = () => {
   const shippingCost = !cart.city ? 0 : cart.city === "Dhaka" ? 50 : 300;
   const grandTotal = subTotal + shippingCost;
 
-  // const isOrderDisabled = cart.medicines.some(
-  //   (product) =>
-  //     product.requiredPrescription === "Yes" && !isPrescriptionUploaded
-  // );
+  const isOrderDisabled = cart.medicines.some(
+    (product) =>
+      product.requiredPrescription === "Yes" && !isPrescriptionUploaded
+  );
 
-  // const anyPrescriptionRequiredItem = cart.medicines.find(
-  //   (product) => product.requiredPrescription === "Yes"
-  // );
+  const anyPrescriptionRequiredItem = cart.medicines.find(
+    (product) => product.requiredPrescription === "Yes"
+  );
 
   //* order handle
   const handleOrder = async () => {
     //* toast id
-    const orderLoading = toast.loading("Order is being placed");
+    const orderLoading = toast.loading("Order is in process");
 
     try {
       if (!user.user) {
         router.push("/login");
         throw new Error("Please login first.");
       }
-      // if (isOrderDisabled) {
-      //   toast.error("Prescription is required!");
-      //   return; //? Prevent ordering without prescription
-      // }
+      if (isOrderDisabled) {
+        toast.error("Prescription is required!");
+        return; //? Prevent ordering without prescription
+      }
       if (!cart.city) {
         throw new Error("City is missing");
       }
@@ -94,16 +96,22 @@ const PaymentDetails = () => {
         totalPrice: grandTotal as number
       };
 
+      const token = localStorage.getItem('authToken')
+
+      // 
+      // .log(orderData);
 
       //* Perform order submission logic (e.g., sending data to an API)
-      const res = await createOrder(orderData);
+      const res = await createOrder(orderData, token as string);
+
+      console.log("108 res", res);
 
       if (res.success) {
-        toast.success(res.message, { id: orderLoading });
+        router.push(res.data.GatewayPageURL);
+        // toast.success(res.message, { id: orderLoading });
         //? Once the order is placed, reset the cart
         dispatch(resetCart());
-        toast.success("Order placed successfully!");
-        router.push(res.data.paymentUrl);
+        // toast.success("Order placed successfully!");
       }
 
       if (!res.success) {
@@ -134,14 +142,14 @@ const PaymentDetails = () => {
         <p className="font-semibold">{currencyFormatter(grandTotal)}</p>
       </div>
 
-      {/* {cart.medicines.some(
+      {cart.medicines.some(
         (product) => product.requiredPrescription === "Yes"
       ) && (
         <PrescriptionUploader
           orderId={anyPrescriptionRequiredItem?._id as string}
           onUploaded={handlePrescriptionUpload}
         />
-      )} */}
+      )}
 
       <CustomButton
         textName="Order Now"

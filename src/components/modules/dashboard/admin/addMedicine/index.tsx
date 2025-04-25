@@ -4,6 +4,7 @@
 import { createProduct } from "@/services/Product";
 import { TMedicine } from "@/types";
 import { useState } from "react";
+import { toast } from "sonner";
 
 const AddMedicine = () => {
   const [formData, setFormData] = useState<TMedicine>({
@@ -24,7 +25,6 @@ const AddMedicine = () => {
   });
 
   const [error, setError] = useState<string | null>(null);
-  //   const router = useRouter();
 
   const handleChange = (
     e: React.ChangeEvent<
@@ -52,13 +52,29 @@ const AddMedicine = () => {
       const token = localStorage.getItem("authToken");
       const result = await createProduct(dataToSend, token as string);
       console.log(result);
-      if (result instanceof Error) {
-        setError(result.message);
+      if (result.success) {
+        toast.success("Product Added successfully");
+        setFormData({
+          name: "", // Medicine Name
+          brand: "", // Medicine Brand
+          price: 0, // Medicine Price
+          Img: "", // Image URL (Optional)
+          symptoms: "Cough & Flu", // Default symptom type
+          requiredPrescription: "Yes", // Default to Yes
+          description: "", // Description
+          manufacturerDetails: "", // Manufacturer Details
+          genericName: "", // Generic Name
+          strength: "", // Strength
+          dosCategory: "", // Dosage Category
+          quantity: 0, // Quantity
+          inStock: true, // Default is in stock
+          expiryDate: "", // Expiry Date (will be in string format)
+        });
       } else {
-        // router.push("/medicines"); // Redirect after successful creation, or to a relevant page
+        toast.error("Failed to Add");
       }
     } catch (error) {
-      setError("Something went wrong. Please try again.");
+      toast.error("Failed to Add");
     }
   };
 

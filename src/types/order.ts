@@ -1,10 +1,14 @@
 import { IUser } from "./customer";
+import { TMedicine } from "./medicine";
 
 export interface IProductItem {
   _id: string;
   productId: string;
   quantity: number;
+  product?: TMedicine;
 }
+
+export type ShippingStatus = "PENDING" | "SHIPPED" | "DELIVERED" | "CANCELLED"
 
 export interface IOrderDB {
   _id: string;

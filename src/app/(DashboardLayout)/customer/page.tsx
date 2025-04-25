@@ -1,10 +1,9 @@
-import React from 'react';
+import UserDashboard from '@/components/modules/dashboard/customer';
 
 const CustomerPage = () => {
     return (
         <div>
-            CustomerPage
-            CustomerPage
+            <UserDashboard/>
         </div>
     );
 };
