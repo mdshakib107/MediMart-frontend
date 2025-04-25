@@ -1,6 +1,6 @@
 "use client";
 
-import { updateProduct } from "@/services/product";
+import { updateProduct } from "../../../../../services/product";
 import { TMedicine } from "@/types";
 import { useState } from "react";
 import { toast } from "sonner";
