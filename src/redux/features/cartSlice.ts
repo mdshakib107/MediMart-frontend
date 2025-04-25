@@ -1,5 +1,6 @@
 import { TMedicine } from "@/types";
 import { createSlice } from "@reduxjs/toolkit";
+import { RootState } from "../store";
 
 export interface CartProduct extends TMedicine {
   orderQuantity: number;
@@ -11,7 +12,7 @@ interface InitialState {
   shippingAddress: string;
 }
 
-// Load from localStorage
+//* Load from localStorage
 const loadCartFromLocalStorage = (): InitialState => {
   if (typeof window === "undefined") {
     return {
@@ -35,7 +36,7 @@ const loadCartFromLocalStorage = (): InitialState => {
   };
 };
 
-// Save to localStorage
+//* Save to localStorage
 const saveCartToLocalStorage = (cart: InitialState) => {
   if (typeof window === "undefined") return;
   try {
@@ -118,6 +119,24 @@ const cartSlice = createSlice({
     },
   },
 });
+
+//* Medicines
+
+export const orderedMedicinesSelector = (state: RootState) => {
+  return state.cart.medicines;
+};
+
+export const orderSelector = (state: RootState) => {
+  return {
+    products: state.cart.medicines.map((medicine) => ({
+      product: medicine._id,
+      quantity: medicine.orderQuantity,
+      price: medicine.price,
+    })),
+    shippingAddress: `${state.cart.shippingAddress} - ${state.cart.city}`,
+    city: state.cart.city,
+  };
+};
 
 export const {
   addProduct,
