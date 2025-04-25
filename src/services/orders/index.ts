@@ -19,13 +19,13 @@ export const createOrder = async (payload: any) => {
   }
 };
 
-export const getAllOrders = async (page: number, limit: number) => {
+export const getAllOrders = async () => {
   try {
-    const query = new URLSearchParams();
-    query.append("page", page.toString());
-    query.append("limit", limit.toString());
+    // const query = new URLSearchParams();
+    // query.append("page", page.toString());
+    // query.append("limit", limit.toString());
 
-    const res = await fetch(`${API_BASE}/orders?${query.toString()}`, {
+    const res = await fetch(`${API_BASE}/orders`, {
       cache: "no-store",
     });
 

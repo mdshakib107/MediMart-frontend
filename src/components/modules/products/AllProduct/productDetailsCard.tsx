@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 // pages/product/[id].tsx
 import { Button } from "@/components/ui/button";
 import { TMedicine } from "@/types";
@@ -18,12 +19,22 @@ import Image from "next/image";
 import Link from "next/link";
 import RelatedProducts from "./relatedProducts";
 import AddToCartButton from "@/components/shared/AddToCartButton";
+import BuyNow from "@/components/shared/BuyNow";
+// import { useRouter } from "next/navigation";
 
 
 
 const ProductDetails = async ({ medicine }: { medicine: TMedicine }) => {
   const originalPrice = Number(medicine?.price) + 50;
   const savings = originalPrice - Number(medicine?.price);
+
+  // const router = useRouter();
+  
+  //   const handleBuyNow= (e: any) =>{    
+  //     e.preventDefault(); //  Prevent <Link> default nav
+  //     e.stopPropagation(); //  Prevents the Link from triggering / event bubbling
+  //     router.push(``);
+  //   }
 
   return (
     <div className="container mx-auto px-4 py-6">
@@ -102,16 +113,8 @@ const ProductDetails = async ({ medicine }: { medicine: TMedicine }) => {
           </div>
 
           {/* Action Buttons */}
-          <div className="flex mt-4">
-            <Link href={`/chackout`} passHref>
-              <Button
-                variant="default"
-                className="flex items-center gap-2 mr-4"
-              >
-                <CreditCard className="w-5 h-5" />
-                Buy Now
-              </Button>
-            </Link>
+          <div className="flex gap-4 mt-4">
+              <BuyNow medicine={medicine}/>
             {/* <Button variant="outline" className="flex items-center gap-2">
               <ShoppingCart className="w-5 h-5" />
               Add to Cart

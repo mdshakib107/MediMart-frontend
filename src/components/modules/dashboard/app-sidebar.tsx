@@ -4,6 +4,7 @@ import { Bot, Settings, SquareTerminal } from "lucide-react";
 import * as React from "react";
 
 import Logo from "@/assets/images/logo/Logo";
+import { Button } from "@/components/ui/button";
 import {
   Sidebar,
   SidebarContent,
@@ -16,7 +17,7 @@ import {
 import { useUser } from "@/contexts/UserContext";
 import Link from "next/link";
 import { NavMain } from "./nav-main";
-import { NavUser } from "./nav-user";
+// import { NavUser } from "./nav-user";
 
 const data = {
   adminNavItem: [
@@ -54,6 +55,10 @@ const data = {
         {
           title: "Profile",
           url: "/profile",
+        },
+        {
+          title: "Update Profile",
+          url: "/update-user",
         },
       ],
     },
@@ -96,6 +101,10 @@ const data = {
           title: "Profile",
           url: "/profile",
         },
+        {
+          title: "Update Profile",
+          url: "/update-user",
+        },
       ],
     },
   ],
@@ -103,7 +112,6 @@ const data = {
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   const { user, isLoading } = useUser();
-  console.log("user", user);
   if (isLoading) {
     return <div className="">Loading...</div>;
   }
@@ -146,7 +154,10 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         }
       </SidebarContent>
       <SidebarFooter>
-        <NavUser />
+        {/* <NavUser /> */}
+        <Button>
+          <Link href="/">Back To Home</Link>
+        </Button>
       </SidebarFooter>
     </Sidebar>
   );
