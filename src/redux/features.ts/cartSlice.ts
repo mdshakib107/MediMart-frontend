@@ -59,6 +59,7 @@ const cartSlice = createSlice({
             // if (state.medicines.length === 0) {
             //     state.medicines.
             // }
+            saveCartToLocalStorage()
         }
     }
 })

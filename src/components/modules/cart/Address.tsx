@@ -24,7 +24,7 @@ const Address = () => {
               </SelectContent>
             </Select>
             <p className="text-sm mb-2">Enter Delivery Address:</p>
-            <textarea className="w-full border rounded-xl"
+            <textarea className="w-full border rounded-xl p-2"
             //   onChange={(e) => handleShippingAddress(e.target.value)}
               rows={5}
             />
