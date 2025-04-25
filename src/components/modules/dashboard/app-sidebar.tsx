@@ -37,6 +37,10 @@ const data = {
           url: "/admin/medicines",
         },
         {
+          title: "Add Products",
+          url: "/admin/addMedicine",
+        },
+        {
           title: "Manage Users",
           url: "/admin/users",
         },
