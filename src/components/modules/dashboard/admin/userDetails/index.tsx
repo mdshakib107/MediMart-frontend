@@ -16,7 +16,7 @@ const UserDetailsPage = ({ user }: Props) => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const data = await getAllOrders(1, 100);
+        const data = await getAllOrders();
         const orders = data?.data?.data || [];
         // Filter orders for the specific user
         setOrdders(

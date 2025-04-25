@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { useState } from "react";
 import { toast } from "sonner";
 
@@ -16,11 +17,30 @@ export default function PrescriptionUploader({
 }: Props) {
   const [uploading, setUploading] = useState(false);
   const [file, setFile] = useState<File | null>(null);
+  const [filePreview, setFilePreview] = useState<string | null>(null);
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const selectedFile = e.target.files?.[0];
     if (selectedFile) {
+      // File validation
+      if (!selectedFile.name.match(/\.(jpg|jpeg|png|pdf)$/)) {
+        toast.error("Only JPG, JPEG, PNG, and PDF files are allowed.");
+        return;
+      }
+      if (selectedFile.size > 5 * 1024 * 1024) {
+        toast.error("File size exceeds the 5MB limit.");
+        return;
+      }
+
+      // Set file state and preview state
       setFile(selectedFile);
+
+      // Create file preview
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setFilePreview(reader.result as string); // This will store the preview URL for images
+      };
+      reader.readAsDataURL(selectedFile); // For image preview
     }
   };
 
@@ -33,13 +53,17 @@ export default function PrescriptionUploader({
 
     setUploading(true);
     try {
-      const response = await fetch("/api/orders/create-order", {
-        method: "POST",
-        body: formData,
-      });
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_BASE_API}/orders/upload-prescription`,
+        {
+          method: "POST",
+          body: formData,
+        },
+      );
 
       if (!response.ok) {
-        throw new Error("Failed to upload prescription");
+        const errorData = await response.json();
+        throw new Error(errorData.message || "Failed to upload prescription");
       }
 
       toast.success("Prescription uploaded successfully!");
@@ -73,11 +97,36 @@ export default function PrescriptionUploader({
           </label>
           <input
             type="file"
-            accept="image/*"
+            accept="image/*, .pdf"
             onChange={handleFileChange}
             disabled={uploading}
             className="block w-full border border-gray-300 rounded-md text-sm file:mr-4 file:py-2 file:px-4 file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100 disabled:opacity-50"
           />
+          {/* Display file preview */}
+          {filePreview && (
+            <div className="mt-3">
+              {file?.type.startsWith("image/") ? (
+                <Image
+                  src={filePreview}
+                  alt="Prescription Preview"
+                  className="w-full h-auto max-w-md rounded-md"
+                  width={300}
+                  height={300}
+                />
+              ) : file?.type === "application/pdf" ? (
+                <a
+                  href={filePreview}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-blue-600 underline"
+                >
+                  📄 Preview PDF
+                </a>
+              ) : (
+                <p className="text-gray-500">File selected: {file?.name}</p>
+              )}
+            </div>
+          )}
           {uploading && <p className="text-sm text-gray-500">Uploading...</p>}
           <button
             onClick={handleUpload}

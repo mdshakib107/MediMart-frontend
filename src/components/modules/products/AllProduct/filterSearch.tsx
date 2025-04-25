@@ -2,6 +2,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
+
 import { getAllProducts } from "@/services/Product";
 import { TMedicine } from "@/types";
 import { useEffect, useState } from "react";

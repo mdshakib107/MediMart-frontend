@@ -8,10 +8,12 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
 
-import CustomButton from "./CustomButton";
-import { logout } from "@/services/AuthService";
 import { protectedRoutes } from "@/contants";
+import { logout } from "@/services/AuthService";
+import CustomButton from "./CustomButton";
 
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Badge } from "@/components/ui/badge";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -20,17 +22,15 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Badge } from "@/components/ui/badge"
-import { useAppDispatch } from "@/redux/hooks";
 import { resetCart } from "@/redux/features/cartSlice";
+import { useAppDispatch } from "@/redux/hooks";
 
 const navItems = [
   { label: "Home", href: "/" },
   { label: "Shop", href: "/shop" },
   { label: "About", href: "/about" },
-  { label: "Services", href: "/services" },
-  { label: "Contact", href: "/contact" },
+  // { label: "Services", href: "/services" },
+  // { label: "Contact", href: "/contact" },
 ];
 
 const Navbar = () => {
@@ -49,7 +49,7 @@ const Navbar = () => {
     setIsLoading(true);
     dispatch(resetCart()); //? clear cart
     if (protectedRoutes.some((route) => pathname.match(route))) {
-      window.location.href = "/"; 
+      window.location.href = "/";
     }
   };
 
@@ -85,16 +85,18 @@ const Navbar = () => {
               </DropdownMenuTrigger>
               <DropdownMenuContent>
                 <DropdownMenuLabel>
-                  {user?.name}{' '}
-                  <Badge 
-                    className= {user?.role === 'admin' ? `bg-purple-600` : `bg-blue-600`}
+                  {user?.name}{" "}
+                  <Badge
+                    className={
+                      user?.role === "admin" ? `bg-purple-600` : `bg-blue-600`
+                    }
                   >
                     {user?.role}
                   </Badge>
                 </DropdownMenuLabel>
                 <DropdownMenuSeparator />
                 <DropdownMenuItem>
-                  <Link href={user?.role === 'admin' ? `/admin` : `/customer`}>
+                  <Link href={user?.role === "admin" ? `/admin` : `/customer`}>
                     Profile
                   </Link>
                 </DropdownMenuItem>

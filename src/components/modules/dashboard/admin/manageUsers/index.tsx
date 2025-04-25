@@ -1,11 +1,15 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 "use client";
+import { getAllOrders } from "@/services/orders";
 import { getAllUsers } from "@/services/users";
 import { IUser } from "@/types";
+import { IOrderDB } from "@/types/order";
 import { TrashIcon } from "lucide-react";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 
 const ManageUsers = () => {
+  const [orders, setOrdders] = useState<IOrderDB[]>([]);
   const [users, setUsers] = useState<IUser[]>([]);
   // const [page, setPage] = useState<number>(1);
   // const [totalPages, setTotalPages] = useState<number>(1);
@@ -34,7 +38,22 @@ const ManageUsers = () => {
 
     fetchData();
   }, []);
-
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const data = await getAllOrders();
+        const orders = data?.data?.data || [];
+        // Filter orders for the specific user
+        setOrdders(orders);
+        // orders.filter((order: IOrderDB) => order?.user?._id === user._id)
+      } catch (error) {
+        console.error("Failed to fetch Users:", error);
+      } finally {
+        // setIsLoading(false);
+      }
+    };
+    fetchData();
+  }, []);
   return (
     <div>
       <div className="px-4 sm:px-6 lg:px-8 py-10">
