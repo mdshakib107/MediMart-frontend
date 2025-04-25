@@ -3,7 +3,7 @@
 
 import PrescriptionUploader from "@/components/PrescriptionUploader/PrescriptionUploader";
 import CustomButton from "@/components/shared/CustomButton";
-import { CartProduct, resetCart } from "@/redux/features/cartSlice";
+import { CartProduct, orderedMedicinesSelector, orderSelector, resetCart } from "@/redux/features/cartSlice";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { useState } from "react";
 import { toast } from "sonner";
@@ -29,6 +29,8 @@ const PaymentDetails = () => {
   //* redux
   const cart = useAppSelector((state) => state.cart);
   const dispatch = useAppDispatch();
+  const cartProducts = useAppSelector(orderedMedicinesSelector);
+  const order = useAppSelector(orderSelector);
 
   //* user info
   const user = useUser();
@@ -67,9 +69,13 @@ const PaymentDetails = () => {
     const orderLoading = toast.loading("Order is being placed");
 
     try {
+      if (!user.user) {
+        router.push("/login");
+        throw new Error("Please login first.");
+      }
       if (isOrderDisabled) {
         toast.error("Prescription is required!");
-        return; // Prevent ordering without prescription
+        return; //? Prevent ordering without prescription
       }
       if (!cart.city) {
         throw new Error("City is missing");
@@ -77,20 +83,32 @@ const PaymentDetails = () => {
       if (!cart.shippingAddress) {
         throw new Error("Shipping address is missing");
       }
-      // Perform order submission logic (e.g., sending data to an API)
-      // const res = await createOrder();
+      if (cartProducts.length === 0) {
+        throw new Error("Cart is empty, what are you trying to order ??");
+      }
 
-      // if (res.success) {
-      //   toast.success(res.message, { id: orderLoading });
-      //   // Once the order is placed, reset the cart
-      //   dispatch(resetCart());
-      //   toast.success("Order placed successfully!");
-      //   router.push(res.data.paymentUrl);
-      // }
+      //* submit type match
+      const orderData = { 
+        ...order, 
+        user: user.user._id as string,
+        totalPrice: grandTotal as number
+      };
 
-      // if (!res.success) {
-      //   toast.error(res.message, { id: orderLoading });
-      // }
+
+      //* Perform order submission logic (e.g., sending data to an API)
+      const res = await createOrder(orderData);
+
+      if (res.success) {
+        toast.success(res.message, { id: orderLoading });
+        //? Once the order is placed, reset the cart
+        dispatch(resetCart());
+        toast.success("Order placed successfully!");
+        router.push(res.data.paymentUrl);
+      }
+
+      if (!res.success) {
+        toast.error(res.message, { id: orderLoading });
+      }
     } catch (error: any) {
       toast.error(error.message, { id: orderLoading });
     }
