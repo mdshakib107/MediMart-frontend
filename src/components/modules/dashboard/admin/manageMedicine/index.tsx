@@ -1,16 +1,18 @@
 "use client";
 
-import { getAllProducts } from "@/services/product";
+import { deleteProduct, getAllProducts } from "@/services/product";
 import { TMedicine } from "@/types";
 import { PencilIcon, TrashIcon } from "lucide-react";
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import { toast } from "sonner";
 
 const ManageMedicine = () => {
   const [medicines, setMedicines] = useState<TMedicine[]>([]);
   const [page, setPage] = useState<number>(1);
   const [totalPages, setTotalPages] = useState<number>(1);
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const limit = 10;
 
   useEffect(() => {
@@ -41,6 +43,28 @@ const ManageMedicine = () => {
 
   const handleNext = () => {
     if (page < totalPages && !isLoading) setPage(page + 1);
+  };
+
+  const handleDelete = async (med: TMedicine) => {
+    const token = localStorage.getItem("authToken");
+    if (!token) {
+      alert("No auth token found.");
+      return;
+    }
+
+    try {
+      const res = await deleteProduct(med._id as string, token);
+      if (res?.success || res?.message?.toLowerCase().includes("delete")) {
+        setMedicines((prev) => prev.filter((m) => m._id !== med?._id));
+      } else {
+        toast.error("Failed to delete the medicine.");
+      }
+    } catch (error) {
+      console.error("Delete error:", error);
+      toast.error("Something went wrong while deleting.");
+    } finally {
+      setIsModalOpen(false);
+    }
   };
 
   return (
@@ -116,14 +140,49 @@ const ManageMedicine = () => {
                     </span>
                   </td>
                   <td className=" text-center">
-                    <Link href={`/admin/medicines/edit/${med._id}`}>
-                      <PencilIcon className="h-5 w-5 text-blue-600 hover:text-blue-800 cursor-pointer transition" />
+                    <Link href={`/admin/medicines/${med._id}`}>
+                      <div className="inline-flex items-center justify-center p-2 text-blue-600 hover:text-white hover:bg-blue-600 rounded-full transition">
+                        <PencilIcon className="h-5 w-5" />
+                      </div>
                     </Link>
                   </td>
                   <td className="text-center">
-                    <button>
-                      <TrashIcon className="h-5 w-5 text-red-600 hover:text-red-800 cursor-pointer transition" />
+                    {/* Delete Button */}
+                    <button
+                      className="inline-flex items-center justify-center p-2 text-red-600 hover:text-white hover:bg-red-600 rounded-full transition"
+                      onClick={() => setIsModalOpen(true)}
+                    >
+                      <TrashIcon className="h-5 w-5" />
                     </button>
+
+                    {/* Modal */}
+                    {isModalOpen && (
+                      <div className=" backdrop-blur-sm fixed inset-0 z-50 flex items-center justify-center">
+                        <div className="bg-white rounded-lg shadow-lg p-6 w-full max-w-md">
+                          <h2 className="text-xl font-semibold text-gray-800 mb-4">
+                            Confirm Delete
+                          </h2>
+                          <p className="text-gray-600 mb-6">
+                            Are you sure you want to delete this medicine? This
+                            action cannot be undone.
+                          </p>
+                          <div className="flex justify-end gap-4">
+                            <button
+                              className="px-4 py-2 bg-gray-200 text-gray-700 rounded hover:bg-gray-300 transition"
+                              onClick={() => setIsModalOpen(false)}
+                            >
+                              Cancel
+                            </button>
+                            <button
+                              className="px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700 transition"
+                              onClick={() => handleDelete(med)}
+                            >
+                              Delete
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    )}
                   </td>
                 </tr>
               ))
