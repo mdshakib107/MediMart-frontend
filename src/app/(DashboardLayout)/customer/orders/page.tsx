@@ -45,7 +45,7 @@ const ViewOrders = () => {
   }
 
   return (
-    <div className="lg:w-2/3 p-6 border-2 shadow-md rounded-2xl ">
+    <div className=" p-6 border-2 shadow-md rounded-2xl">
       <h2 className="text-center font-bold text-3xl mb-14">All of Your Orders</h2>
 
       <Table>
