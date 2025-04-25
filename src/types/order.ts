@@ -6,6 +6,8 @@ export interface IProductItem {
   quantity: number;
 }
 
+export type ShippingStatus = "PENDING" | "SHIPPED" | "DELIVERED" | "CANCELLED"
+
 export interface IOrderDB {
   _id: string;
   products: IProductItem[];

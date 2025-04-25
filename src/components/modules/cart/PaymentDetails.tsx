@@ -1,4 +1,3 @@
- 
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
@@ -97,16 +96,22 @@ const PaymentDetails = () => {
         totalPrice: grandTotal as number
       };
 
+      const token = localStorage.getItem('authToken')
+
+      // 
+      // .log(orderData);
 
       //* Perform order submission logic (e.g., sending data to an API)
-      const res = await createOrder(orderData);
+      const res = await createOrder(orderData, token as string);
+
+      console.log("108 res", res);
 
       if (res.success) {
-        toast.success(res.message, { id: orderLoading });
+        router.push(res.data.GatewayPageURL);
+        // toast.success(res.message, { id: orderLoading });
         //? Once the order is placed, reset the cart
         dispatch(resetCart());
-        toast.success("Order placed successfully!");
-        router.push(res.data.paymentUrl);
+        // toast.success("Order placed successfully!");
       }
 
       if (!res.success) {
