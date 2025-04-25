@@ -77,17 +77,17 @@ const data = {
       url: "/customer",
       icon: Bot,
       items: [
-        {
-          title: "Manage Products",
-          url: "//medicines",
-        },
-        {
-          title: "Manage Users",
-          url: "/admin/users",
-        },
+        // {
+        //   title: "Manage Products",
+        //   url: "/medicines",
+        // },
+        // {
+        //   title: "Manage Users",
+        //   url: "/admin/users",
+        // },
         {
           title: "Manage Orders",
-          url: "/admin/orders",
+          url: "/customer/orders",
         },
       ],
     },
