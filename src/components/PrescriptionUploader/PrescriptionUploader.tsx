@@ -53,10 +53,13 @@ export default function PrescriptionUploader({
 
     setUploading(true);
     try {
-      const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_API}/orders/upload-prescription`, {
-        method: "POST",
-        body: formData,
-      });
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_BASE_API}/orders/upload-prescription`,
+        {
+          method: "POST",
+          body: formData,
+        },
+      );
 
       if (!response.ok) {
         const errorData = await response.json();
@@ -107,9 +110,18 @@ export default function PrescriptionUploader({
                   src={filePreview}
                   alt="Prescription Preview"
                   className="w-full h-auto max-w-md rounded-md"
-                  width={300}  // You can adjust this as per your design
-                  height={300}  // Adjust the height for the preview as needed
+                  width={300}
+                  height={300}
                 />
+              ) : file?.type === "application/pdf" ? (
+                <a
+                  href={filePreview}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-blue-600 underline"
+                >
+                  📄 Preview PDF
+                </a>
               ) : (
                 <p className="text-gray-500">File selected: {file?.name}</p>
               )}
