@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
 import PrescriptionUploader from "@/components/PrescriptionUploader/PrescriptionUploader";
@@ -6,6 +7,9 @@ import { CartProduct, resetCart } from "@/redux/features/cartSlice";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { useState } from "react";
 import { toast } from "sonner";
+import { useRouter } from "next/navigation";
+import { useUser } from "@/contexts/UserContext";
+import { createOrder } from "@/services/cart";
 
 // Optional currency formatter
 const currencyFormatter = (value: number) =>
@@ -25,6 +29,12 @@ const PaymentDetails = () => {
   //* redux
   const cart = useAppSelector((state) => state.cart);
   const dispatch = useAppDispatch();
+
+  //* user info
+  const user = useUser();
+
+  //* router
+  const router = useRouter();
 
   //* state for prescription
   const [isPrescriptionUploaded, setPrescriptionUploaded] = useState(false);
@@ -52,15 +62,38 @@ const PaymentDetails = () => {
   );
 
   //* order handle
-  const handleOrder = () => {
-    if (isOrderDisabled) {
-      return; // Prevent ordering without prescription
-    }
-    // Perform order submission logic (e.g., sending data to an API)
+  const handleOrder = async () => {
+    //* toast id
+    const orderLoading = toast.loading("Order is being placed");
 
-    // Once the order is placed, reset the cart
-    dispatch(resetCart());
-    toast.success("Order placed successfully!");
+    try {
+      if (isOrderDisabled) {
+        toast.error("Prescription is required!");
+        return; // Prevent ordering without prescription
+      }
+      if (!cart.city) {
+        throw new Error("City is missing");
+      }
+      if (!cart.shippingAddress) {
+        throw new Error("Shipping address is missing");
+      }
+      // Perform order submission logic (e.g., sending data to an API)
+      // const res = await createOrder();
+
+      // if (res.success) {
+      //   toast.success(res.message, { id: orderLoading });
+      //   // Once the order is placed, reset the cart
+      //   dispatch(resetCart());
+      //   toast.success("Order placed successfully!");
+      //   router.push(res.data.paymentUrl);
+      // }
+
+      // if (!res.success) {
+      //   toast.error(res.message, { id: orderLoading });
+      // }
+    } catch (error: any) {
+      toast.error(error.message, { id: orderLoading });
+    }
   };
 
   return (
