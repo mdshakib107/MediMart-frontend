@@ -114,7 +114,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
           <SidebarMenuItem>
             <SidebarMenuButton size="lg" asChild>
               {user?.role === "admin" ? (
-                <Link href="/admin">
+                <Link href="/">
                   <div className="flex items-center justify-center">
                     <Logo />
                   </div>
