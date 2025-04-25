@@ -1,7 +1,7 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
-import { toast } from 'sonner';
+import { useState } from "react";
+import { toast } from "sonner";
 
 interface Props {
   orderId: string;
@@ -9,7 +9,11 @@ interface Props {
   onUploaded: () => void; // optional callback to refresh UI
 }
 
-export default function PrescriptionUploader({ orderId, prescriptionUrl, onUploaded }: Props) {
+export default function PrescriptionUploader({
+  orderId,
+  prescriptionUrl,
+  onUploaded,
+}: Props) {
   const [uploading, setUploading] = useState(false);
   const [file, setFile] = useState<File | null>(null);
 
@@ -24,56 +28,63 @@ export default function PrescriptionUploader({ orderId, prescriptionUrl, onUploa
     if (!file) return;
 
     const formData = new FormData();
-    formData.append('prescription', file);
-    formData.append('orderId', orderId);
+    formData.append("prescription", file);
+    formData.append("orderId", orderId);
 
     setUploading(true);
     try {
-      const response = await fetch('/api/orders/create-order', {
-        method: 'POST',
+      const response = await fetch("/api/orders/create-order", {
+        method: "POST",
         body: formData,
       });
 
       if (!response.ok) {
-        throw new Error('Failed to upload prescription');
+        throw new Error("Failed to upload prescription");
       }
 
-      toast.success('Prescription uploaded successfully!');
+      toast.success("Prescription uploaded successfully!");
       onUploaded();
     } catch (error) {
       console.error(error);
-      toast.error('Upload failed!');
+      toast.error("Upload failed!");
     } finally {
       setUploading(false);
     }
   };
 
   return (
-    <div className="space-y-2">
+    <div className="space-y-4 p-4 border rounded-lg bg-white shadow-sm mb-4">
       {prescriptionUrl ? (
-        <div>
-          <p className="text-green-600">Prescription uploaded</p>
-          <a href={prescriptionUrl} target="_blank" rel="noopener noreferrer" className="text-blue-500 underline">
-            View Prescription
+        <div className="space-y-1">
+          <p className="text-green-600 font-medium">Prescription uploaded!!</p>
+          <a
+            href={prescriptionUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-blue-600 underline hover:text-blue-800 transition-colors"
+          >
+            📎 View Prescription
           </a>
         </div>
       ) : (
-        <div>
-          <label className="block font-medium">Upload Prescription:</label>
+        <div className="space-y-3">
+          <label className="block font-medium text-gray-700">
+            Upload Prescription:
+          </label>
           <input
             type="file"
             accept="image/*"
             onChange={handleFileChange}
             disabled={uploading}
-            className="file-input file-input-bordered file-input-sm"
+            className="block w-full border border-gray-300 rounded-md text-sm file:mr-4 file:py-2 file:px-4 file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100 disabled:opacity-50"
           />
           {uploading && <p className="text-sm text-gray-500">Uploading...</p>}
           <button
             onClick={handleUpload}
             disabled={uploading || !file}
-            className="btn btn-primary mt-2"
+            className="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
           >
-            {uploading ? 'Uploading...' : 'Upload Prescription'}
+            {uploading ? "Uploading..." : "Upload Prescription"}
           </button>
         </div>
       )}

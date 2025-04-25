@@ -1,20 +1,37 @@
 "use client";
 
+import PrescriptionUploader from "@/components/PrescriptionUploader/PrescriptionUploader";
 import CustomButton from "@/components/shared/CustomButton";
 import { CartProduct, resetCart } from "@/redux/features/cartSlice";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
+import { useState } from "react";
+import { toast } from "sonner";
 
 // Optional currency formatter
 const currencyFormatter = (value: number) =>
   new Intl.NumberFormat("en-US", {
     style: "currency",
-    currency: "USD",
+    currency: "BDT",
   }).format(value);
 
+// new Intl.NumberFormat("en-BD", {
+//   style: "currency",
+//   currency: "BDT",
+//   currencyDisplay: "symbol", //? You can also try "narrowSymbol"
+//   maximumFractionDigits: 0,  //? Optional: Remove decimals if not needed
+// }).format(value);
+
 const PaymentDetails = () => {
-  // redux
+  //* redux
   const cart = useAppSelector((state) => state.cart);
   const dispatch = useAppDispatch();
+
+  //* state for prescription
+  const [isPrescriptionUploaded, setPrescriptionUploaded] = useState(false);
+
+  const handlePrescriptionUpload = () => {
+    setPrescriptionUploaded(true);
+  };
 
   const subTotal = cart.medicines.reduce(
     (total: number, product: CartProduct) =>
@@ -25,12 +42,25 @@ const PaymentDetails = () => {
   const shippingCost = !cart.city ? 0 : cart.city === "Dhaka" ? 50 : 300;
   const grandTotal = subTotal + shippingCost;
 
+  const isOrderDisabled = cart.medicines.some(
+    (product) =>
+      product.requiredPrescription === "Yes" && !isPrescriptionUploaded
+  );
+
+  const anyPrescriptionRequiredItem = cart.medicines.find(
+    (product) => product.requiredPrescription === "Yes"
+  );
+
   //* order handle
   const handleOrder = () => {
+    if (isOrderDisabled) {
+      return; // Prevent ordering without prescription
+    }
     // Perform order submission logic (e.g., sending data to an API)
 
     // Once the order is placed, reset the cart
     dispatch(resetCart());
+    toast.success("Order placed successfully!");
   };
 
   return (
@@ -53,10 +83,20 @@ const PaymentDetails = () => {
         <p className="font-semibold">{currencyFormatter(grandTotal)}</p>
       </div>
 
+      {cart.medicines.some(
+        (product) => product.requiredPrescription === "Yes"
+      ) && (
+        <PrescriptionUploader
+          orderId={anyPrescriptionRequiredItem?._id as string}
+          onUploaded={handlePrescriptionUpload}
+        />
+      )}
+
       <CustomButton
         textName="Order Now"
         handleAnything={handleOrder}
         className="w-full font-semibold py-1!"
+        disabled={isOrderDisabled}
       />
     </div>
   );

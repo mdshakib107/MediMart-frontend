@@ -1,10 +1,10 @@
 'use client';
 
 import { Button } from "@/components/ui/button";
-import { addProduct } from "@/redux/features.ts/cartSlice";
 import { useAppDispatch } from "@/redux/hooks";
 import { ShoppingCart } from "lucide-react";
 import { TMedicine } from "@/types";
+import { addProduct } from "@/redux/features/cartSlice";
 
 const AddToCartButton = ({ medicine }: { medicine: TMedicine }) => {
   const dispatch = useAppDispatch();
