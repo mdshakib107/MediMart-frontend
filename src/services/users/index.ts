@@ -13,9 +13,10 @@ export const createUser = async (payload: Record<string, any>) => {
       },
       body: JSON.stringify(payload),
     });
-    return await res.json();
+    const resData = await res.json();
+    return resData;
   } catch (error: any) {
-    throw new Error(error.message);
+    return Error(error.message);
   }
 };
 
@@ -28,29 +29,35 @@ export const createAdmin = async (payload: Record<string, any>) => {
       },
       body: JSON.stringify(payload),
     });
-    return await res.json();
+    const resData = await res.json();
+    return resData;
   } catch (error: any) {
-    throw new Error(error.message);
+    return Error(error.message);
   }
 };
 
-export const getAllUsers = async () => {
+export const getAllUsers = async (token: string) => {
   try {
     const res = await fetch(`${API_BASE}/users`, {
       cache: "no-store", // always fresh
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
     });
-    return await res.json();
+    const data = await res.json();
+    return data;
   } catch (error: any) {
-    throw new Error(error.message);
+    return Error(error.message);
   }
 };
 
 export const getSingleUser = async (id: string) => {
   try {
     const res = await fetch(`${API_BASE}/users/${id}`);
-    return await res.json();
+    const data = await res.json();
+    return data;
   } catch (error: any) {
-    throw new Error(error.message);
+    return Error(error.message);
   }
 };
 
@@ -63,9 +70,10 @@ export const updateUser = async (id: string, data: Record<string, any>) => {
       },
       body: JSON.stringify(data),
     });
-    return await res.json();
+    const resData = await res.json();
+    return resData;
   } catch (error: any) {
-    throw new Error(error.message);
+    return Error(error.message);
   }
 };
 
@@ -74,8 +82,9 @@ export const deleteUser = async (id: string) => {
     const res = await fetch(`${API_BASE}/users/${id}`, {
       method: "DELETE",
     });
-    return await res.json();
+    const resData = await res.json();
+    return resData;
   } catch (error: any) {
-    throw new Error(error.message);
+    return Error(error.message);
   }
 };

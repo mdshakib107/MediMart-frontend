@@ -1,6 +1,5 @@
 "use client";
 
-import * as React from "react";
 import {
   Bot,
   Frame,
@@ -11,7 +10,9 @@ import {
   Settings,
   SquareTerminal,
 } from "lucide-react";
+import * as React from "react";
 
+import Logo from "@/assets/images/logo/Logo";
 import {
   Sidebar,
   SidebarContent,
@@ -22,7 +23,6 @@ import {
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
 import Link from "next/link";
-import Logo from "@/assets/images/logo/Logo";
 import { NavMain } from "./nav-main";
 import { NavUser } from "./nav-user";
 
@@ -35,20 +35,20 @@ const data = {
       isActive: true,
     },
     {
-      title: "Shop",
-      url: "/customer/shop/products",
+      title: "Manage",
+      url: "/admin",
       icon: Bot,
       items: [
         {
           title: "Manage Products",
-          url: "/customer/shop/products",
+          url: "/medicines",
         },
         {
-          title: "Manage Categories",
+          title: "Manage Users",
           url: "/customer/shop/category",
         },
         {
-          title: "Manage Brands",
+          title: "Manage Orders",
           url: "/customer/shop/brand",
         },
         {
@@ -108,7 +108,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         <SidebarMenu>
           <SidebarMenuItem>
             <SidebarMenuButton size="lg" asChild>
-              <Link href="/">
+              <Link href="/admin">
                 <div className="flex items-center justify-center">
                   <Logo />
                 </div>
