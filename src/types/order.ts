@@ -8,6 +8,8 @@ export interface IProductItem {
   product?: TMedicine;
 }
 
+export type ShippingStatus = "PENDING" | "SHIPPED" | "DELIVERED" | "CANCELLED"
+
 export interface IOrderDB {
   _id: string;
   products: IProductItem[];
