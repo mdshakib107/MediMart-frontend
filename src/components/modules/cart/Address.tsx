@@ -30,7 +30,7 @@ const Address = () => {
         <p className="text-gray-500">Enter your address.</p>
         <div className="mt-5">
           <Select value={city} onValueChange={handleCitySelect}>
-            <SelectTrigger className="mb-5">
+            <SelectTrigger className="mb-5 w-full">
               <SelectValue placeholder="Select a city" />
             </SelectTrigger>
             <SelectContent>
@@ -41,7 +41,7 @@ const Address = () => {
               ))}
             </SelectContent>
           </Select>
-          <p className="text-sm mb-2">Enter Delivery Address:</p>
+          <p className="text-sm mb-2 text-gray-500">Enter Delivery Address:</p>
           <textarea
             className="w-full border rounded-xl p-2"
             value={shippingAddress}
