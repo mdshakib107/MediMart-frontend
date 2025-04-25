@@ -11,6 +11,8 @@ import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 import { useUser } from "@/contexts/UserContext";
 import { createOrder } from "@/services/cart";
+import { useState } from "react";
+import PrescriptionUploader from "@/components/PrescriptionUploader/PrescriptionUploader";
 
 // Optional currency formatter
 const currencyFormatter = (value: number) =>
@@ -40,11 +42,11 @@ const PaymentDetails = () => {
   const router = useRouter();
 
   //* state for prescription
-  // const [isPrescriptionUploaded, setPrescriptionUploaded] = useState(false);
+  const [isPrescriptionUploaded, setPrescriptionUploaded] = useState(false);
 
-  // const handlePrescriptionUpload = () => {
-  //   setPrescriptionUploaded(true);
-  // };
+  const handlePrescriptionUpload = () => {
+    setPrescriptionUploaded(true);
+  };
 
   const subTotal = cart.medicines.reduce(
     (total: number, product: CartProduct) =>
@@ -55,14 +57,14 @@ const PaymentDetails = () => {
   const shippingCost = !cart.city ? 0 : cart.city === "Dhaka" ? 50 : 300;
   const grandTotal = subTotal + shippingCost;
 
-  // const isOrderDisabled = cart.medicines.some(
-  //   (product) =>
-  //     product.requiredPrescription === "Yes" && !isPrescriptionUploaded
-  // );
+  const isOrderDisabled = cart.medicines.some(
+    (product) =>
+      product.requiredPrescription === "Yes" && !isPrescriptionUploaded
+  );
 
-  // const anyPrescriptionRequiredItem = cart.medicines.find(
-  //   (product) => product.requiredPrescription === "Yes"
-  // );
+  const anyPrescriptionRequiredItem = cart.medicines.find(
+    (product) => product.requiredPrescription === "Yes"
+  );
 
   //* order handle
   const handleOrder = async () => {
@@ -74,10 +76,10 @@ const PaymentDetails = () => {
         router.push("/login");
         throw new Error("Please login first.");
       }
-      // if (isOrderDisabled) {
-      //   toast.error("Prescription is required!");
-      //   return; //? Prevent ordering without prescription
-      // }
+      if (isOrderDisabled) {
+        toast.error("Prescription is required!");
+        return; //? Prevent ordering without prescription
+      }
       if (!cart.city) {
         throw new Error("City is missing");
       }
@@ -135,14 +137,14 @@ const PaymentDetails = () => {
         <p className="font-semibold">{currencyFormatter(grandTotal)}</p>
       </div>
 
-      {/* {cart.medicines.some(
+      {cart.medicines.some(
         (product) => product.requiredPrescription === "Yes"
       ) && (
         <PrescriptionUploader
           orderId={anyPrescriptionRequiredItem?._id as string}
           onUploaded={handlePrescriptionUpload}
         />
-      )} */}
+      )}
 
       <CustomButton
         textName="Order Now"
