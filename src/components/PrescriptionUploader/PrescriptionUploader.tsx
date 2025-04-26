@@ -11,11 +11,11 @@ interface Props {
 }
 
 export default function PrescriptionUploader({
-  orderId,
+  // orderId,
   prescriptionUrl,
-  onUploaded,
+  // onUploaded,
 }: Props) {
-  const [uploading, setUploading] = useState(false);
+  // const [uploading, setUploading] = useState(false);
   const [file, setFile] = useState<File | null>(null);
   const [filePreview, setFilePreview] = useState<string | null>(null);
 
@@ -44,37 +44,37 @@ export default function PrescriptionUploader({
     }
   };
 
-  const handleUpload = async () => {
-    if (!file) return;
+  // const handleUpload = async () => {
+  //   if (!file) return;
 
-    const formData = new FormData();
-    formData.append("prescription", file);
-    formData.append("orderId", orderId);
+  //   const formData = new FormData();
+  //   formData.append("prescription", file);
+  //   formData.append("orderId", orderId);
 
-    setUploading(true);
-    try {
-      const response = await fetch(
-        `${process.env.NEXT_PUBLIC_BASE_API}/orders/upload-prescription`,
-        {
-          method: "POST",
-          body: formData,
-        },
-      );
+  //   setUploading(true);
+  //   try {
+  //     const response = await fetch(
+  //       `${process.env.NEXT_PUBLIC_BASE_API}/orders/upload-prescription`,
+  //       {
+  //         method: "POST",
+  //         body: formData,
+  //       },
+  //     );
 
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.message || "Failed to upload prescription");
-      }
+  //     if (!response.ok) {
+  //       const errorData = await response.json();
+  //       throw new Error(errorData.message || "Failed to upload prescription");
+  //     }
 
-      toast.success("Prescription uploaded successfully!");
-      onUploaded();
-    } catch (error) {
-      console.error(error);
-      toast.error("Upload failed!");
-    } finally {
-      setUploading(false);
-    }
-  };
+  //     toast.success("Prescription uploaded successfully!");
+  //     onUploaded();
+  //   } catch (error) {
+  //     console.error(error);
+  //     toast.error("Upload failed!");
+  //   } finally {
+  //     setUploading(false);
+  //   }
+  // };
 
   return (
     <div className="space-y-4 p-4 border rounded-lg bg-white shadow-sm mb-4">
@@ -99,7 +99,7 @@ export default function PrescriptionUploader({
             type="file"
             accept="image/*, .pdf"
             onChange={handleFileChange}
-            disabled={uploading}
+            // disabled={uploading}
             className="block w-full border border-gray-300 rounded-md text-sm file:mr-4 file:py-2 file:px-4 file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100 disabled:opacity-50"
           />
           {/* Display file preview */}
@@ -127,14 +127,14 @@ export default function PrescriptionUploader({
               )}
             </div>
           )}
-          {uploading && <p className="text-sm text-gray-500">Uploading...</p>}
-          <button
+          {/* {uploading && <p className="text-sm text-gray-500">Uploading...</p>} */}
+          {/* <button
             onClick={handleUpload}
             disabled={uploading || !file}
             className="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
           >
             {uploading ? "Uploading..." : "Upload Prescription"}
-          </button>
+          </button> */}
         </div>
       )}
     </div>
