@@ -36,6 +36,7 @@ export const getAllOrders = async () => {
 };
 
 export const updateOrder = async (id: string, payload: Partial<any>) => {
+  console.log("from service", id, payload);
   try {
     const res = await fetch(`${API_BASE}/orders/${id}`, {
       method: "PATCH",
@@ -44,6 +45,7 @@ export const updateOrder = async (id: string, payload: Partial<any>) => {
       },
       body: JSON.stringify(payload),
     });
+    console.log(res);
     return await res.json();
   } catch (error: any) {
     throw new Error(error.message);

@@ -355,7 +355,7 @@ const AddMedicine = () => {
             type="date"
             id="expiryDate"
             name="expiryDate"
-            value={formData.expiryDate}
+            value={formData.expiryDate as string}
             onChange={handleChange}
             required
             className="w-full mt-1 p-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
