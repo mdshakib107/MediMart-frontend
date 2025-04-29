@@ -9,6 +9,16 @@ The **Medicine E-Commerce Shop** is an online platform where users can browse, s
 ## 🌐 Live URL: 
 [MediMart💊]()
 
+## Credentials:
+
+**Admin:**
+ - email: mina@mail.com
+ - pass: 1234
+   
+**User:**
+ - email: nina@mail.com
+ - pass: 1234
+
 ## Key Features:
 
 ### **User Authentication:**
