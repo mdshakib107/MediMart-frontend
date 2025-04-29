@@ -4,10 +4,10 @@
 
 ## Overview:
 
-The **Medicine E-Commerce Shop** is an online platform where users can browse, search, and purchase medicines. The platform will have user authentication, an intuitive shopping experience, secure payment integration, and an order-tracking system. The shop will sell medicines only and will comply with necessary regulations regarding prescription-based purchases.
+The **Medicine E-Commerce Shop** is an online platform where users can browse, search, and purchase medicines. The platform will have user authentication, an intuitive shopping experience, secure payment integration, and an order-tracking system. The shop will only sell medicines and comply with prescription-based purchase regulations.
 
 ## 🌐 Live URL: 
-[MediMart💊]()
+[MediMart💊](https://medi-mart-night.vercel.app)
 
 ## Credentials:
 
