@@ -6,6 +6,8 @@ export interface IProductItem {
   productId: string;
   quantity: number;
   product?: TMedicine;
+  price?: number;
+  name?: string;
 }
 
 export type ShippingStatus = "PENDING" | "SHIPPED" | "DELIVERED" | "CANCELLED"
@@ -21,4 +23,6 @@ export interface IOrderDB {
   isDeleted: boolean;
   city: string;
   shippingAddress: string;
+  shippingCost?: number;
+  createdAt?: string | date;
 }

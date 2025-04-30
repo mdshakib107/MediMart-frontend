@@ -93,6 +93,7 @@ const PaymentDetails = () => {
       const orderData = { 
         ...order, 
         user: user.user._id as string,
+        shippingCost: shippingCost as number,
         totalPrice: grandTotal as number
       };
 

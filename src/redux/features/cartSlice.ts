@@ -130,6 +130,7 @@ export const orderSelector = (state: RootState) => {
   return {
     products: state.cart.medicines.map((medicine) => ({
       product: medicine._id,
+      name: medicine.name,
       quantity: medicine.orderQuantity,
       price: medicine.price,
     })),
