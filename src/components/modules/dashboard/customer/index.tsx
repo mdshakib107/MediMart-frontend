@@ -2,22 +2,26 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { ShoppingCartIcon, TruckIcon, PackageIcon } from "lucide-react";
 import Link from "next/link";
-import { getAllOrders } from "@/services/orders";
+import { getOrdersByUserId } from "@/services/orders"; 
 import { IOrderDB } from "@/types/order";
-
+import { useUser } from "@/contexts/UserContext"; 
 
 const UserDashboard = () => {
   const [orders, setOrders] = useState<IOrderDB[]>([]);
   const [loading, setLoading] = useState(true);
 
+  const { user } = useUser(); // Get logged-in user
+
   useEffect(() => {
     const fetchOrders = async () => {
+      if (!user?._id) return; // Ensure user ID exists
+
       try {
-        const res = await getAllOrders();
-        const fetchedOrders = Array.isArray(res?.data?.data) ? res.data.data : [];
+        const res = await getOrdersByUserId(user._id); 
+        const fetchedOrders = Array.isArray(res?.data) ? res.data : [];
         setOrders(fetchedOrders);
       } catch (err) {
         console.error("Failed to load orders:", err);
@@ -27,8 +31,8 @@ const UserDashboard = () => {
     };
 
     fetchOrders();
-  }, []);
-console.log(orders)
+  }, [user]); // ✅ Add dependency on user
+
   const stats = {
     ordersPlaced: orders.length,
     pendingDeliveries: orders.filter((order) => order.shippingStatus === "PENDING").length,
