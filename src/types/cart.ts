@@ -23,4 +23,5 @@ export interface IPartialOrder{
   city?: string;
   user: string;
   totalPrice: number;
+  shippingCost?: number;
 }

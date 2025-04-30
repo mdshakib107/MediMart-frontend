@@ -93,13 +93,13 @@ const PaymentDetails = () => {
       const orderData = { 
         ...order, 
         user: user.user._id as string,
+        shippingCost: shippingCost as number,
         totalPrice: grandTotal as number
       };
 
       const token = localStorage.getItem('authToken')
-
-      // 
-      // .log(orderData);
+ 
+      console.log(orderData);
 
       //* Perform order submission logic (e.g., sending data to an API)
       const res = await createOrder(orderData, token as string);

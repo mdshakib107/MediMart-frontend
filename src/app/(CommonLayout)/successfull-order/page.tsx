@@ -18,7 +18,7 @@ const SuccessfullOrder = () => {
               Go to Home
             </Button>
             </Link>
-            <Link href='/customer/view-orders'>
+            <Link href='/customer/orders'>
             <Button className='cursor-pointer' variant="outline" >
               View Orders
             </Button>

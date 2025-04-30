@@ -3,6 +3,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
 const API_BASE = process.env.NEXT_PUBLIC_BASE_API;
+// console.log(API_BASE)
 
 export const createOrder = async (payload: any) => {
   try {
@@ -32,6 +33,22 @@ export const getAllOrders = async () => {
     return await res.json();
   } catch (error: any) {
     throw new Error(error.message);
+  }
+};
+
+export const getOrdersByUserId = async (userId: string) => {
+  try {
+    const res = await fetch(`${API_BASE}/orders/${userId}`, {
+      cache: "no-store",
+    });
+
+    if (!res.ok) {
+      throw new Error(`Failed to fetch orders: ${res.status} ${res.statusText}`);
+    }
+
+    return await res.json();
+  } catch (error: any) {
+    throw new Error(error.message || "Something went wrong while fetching orders");
   }
 };
 
