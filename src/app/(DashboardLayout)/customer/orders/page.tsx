@@ -131,7 +131,7 @@ const ViewOrders = () => {
                       <ChevronRight size={16} />
                     )}
                     {/* Order #{order._id.slice(-6)} */}
-                    {new Date(order.createdAt).toLocaleString()}
+                    {new Date(order?.createdAt as string).toLocaleString()}
                   </TableCell>
                   <TableCell>{order.paymentStatus}</TableCell>
                   <TableCell>{order.shippingStatus}</TableCell>

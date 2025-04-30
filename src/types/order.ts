@@ -24,5 +24,5 @@ export interface IOrderDB {
   city: string;
   shippingAddress: string;
   shippingCost?: number;
-  createdAt?: string | date;
+  createdAt?: string | Date;
 }
