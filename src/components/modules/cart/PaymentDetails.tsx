@@ -97,9 +97,8 @@ const PaymentDetails = () => {
       };
 
       const token = localStorage.getItem('authToken')
-
-      // 
-      // .log(orderData);
+ 
+      console.log(orderData);
 
       //* Perform order submission logic (e.g., sending data to an API)
       const res = await createOrder(orderData, token as string);

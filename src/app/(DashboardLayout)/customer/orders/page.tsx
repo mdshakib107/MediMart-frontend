@@ -1,14 +1,19 @@
 "use client";
+
 import { useEffect, useState } from "react";
-import { getAllOrders } from "@/services/orders"; // Assuming you have the getAllOrders function in services
 import { IOrderDB } from "@/types/order";
 import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import Loading from "@/components/shared/Loading"; // Assuming you have a Loading component
+import { useUser } from "@/contexts/UserContext";
+import { getOrdersByUserId } from "@/services/orders";
 
 const ViewOrders = () => {
   const [orders, setOrders] = useState<IOrderDB[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [isError, setIsError] = useState<boolean>(false);
+
+  //* user info
+  const { user } = useUser();
 
   useEffect(() => {
     const fetchOrders = async () => {
@@ -20,9 +25,18 @@ const ViewOrders = () => {
       }
 
       try {
-        const data = await getAllOrders(); // Fetch all orders
-        setOrders(data?.data?.data || []); 
-        console.log(data)
+        // Directly access user._id, no need for await
+        const userId = user?._id;
+
+        if (!userId) {
+          throw new Error("User ID is missing");
+        }
+
+        const data = await getOrdersByUserId(userId as string);
+
+        console.log("data", data);
+
+        setOrders(data || []);
       } catch (error) {
         setIsError(true);
         console.error("Failed to fetch orders:", error);
@@ -31,8 +45,10 @@ const ViewOrders = () => {
       }
     };
 
-    fetchOrders();
-  }, []);
+    if (user?._id) {
+      fetchOrders();
+    }
+  }, [user]);  // <-- Added dependency on `user`
 
   if (isLoading) return <Loading />;
   if (isError) return <p>Failed to load orders.</p>;
@@ -59,9 +75,11 @@ const ViewOrders = () => {
           </TableRow>
         </TableHeader>
         <TableBody>
-          {orders.map((order) => (
+          {orders?.map((order) => (
             <TableRow key={order?._id}>
-              <TableCell className="font-medium">{order.products[0]?.product?.name || "N/A"}</TableCell>
+              <TableCell className="font-medium">
+                {order.products[0]?.product?.name || "N/A"}
+              </TableCell>
               <TableCell>{order.paymentStatus}</TableCell>
               <TableCell>{order.shippingStatus}</TableCell>
               <TableCell className="text-right">${order.totalPrice}</TableCell>
