@@ -33,15 +33,15 @@ const AllProducts = () => {
         </button>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-5 gap-8">
+      <div className="grid grid-cols-1 lg:grid-cols-6 xl:grid-cols-7 gap-4">
         {/* Product List */}
-        <div className="lg:col-span-4">
+        <div className="lg:col-span-4 xl:col-span-5">
           <InfiniteProductList filters={filters} />
         </div>
 
         {/* Desktop Sidebar */}
-        <div className="hidden lg:block lg:col-span-1">
-          <div className="sticky top-2  p-4 ">
+        <div className="hidden lg:block lg:col-span-2 xl:col-span-2">
+          <div className="sticky top-20  p-4 ">
             <FilterSearch onFilterChange={handleFilterChange} />
           </div>
         </div>
