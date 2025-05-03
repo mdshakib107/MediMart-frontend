@@ -83,7 +83,7 @@ const InfiniteProductList = ({ filters }: { filters: Record<string, any> }) => {
               </span>
             ) : (
               <span className="text-gray-500 mt-4">
-                ✅ Yay! You have seen it all
+                Yay! You have seen it all!!
               </span>
             )}
           </p>

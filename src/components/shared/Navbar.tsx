@@ -124,12 +124,12 @@ const Navbar = () => {
             </Link>
           )}
           <Link href={"/cart"}>
-            <ShoppingCart className="cursor-pointer" />
+            <ShoppingCart className="cursor-pointer hover:scale-105"/>
           </Link>
         </nav>
 
         {/* Mobile Menu Icon */}
-        <div className="md:hidden">
+        <div className="md:hidden flex justify-center items-center gap-2">
           <Button
             variant="ghost"
             size="icon"
@@ -138,7 +138,7 @@ const Navbar = () => {
             {menuOpen ? <X size={24} /> : <Menu size={24} />}
           </Button>
           <Link href={"/cart"}>
-            <ShoppingCart className="cursor-pointer" />
+            <ShoppingCart className="cursor-pointer hover:scale-105" />
           </Link>
         </div>
       </div>
