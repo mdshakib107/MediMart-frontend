@@ -3,6 +3,7 @@
 import { useState } from "react";
 import FilterSearch from "./AllProduct/filterSearch";
 import InfiniteProductList from "./AllProduct/inifinityScroll";
+import { Button } from "@/components/ui/button";
 
 const AllProducts = () => {
   const [filters, setFilters] = useState({
@@ -24,13 +25,14 @@ const AllProducts = () => {
       </h1>
 
       {/* Mobile Filter Toggle Button */}
-      <div className="lg:hidden flex justify-end mb-4">
-        <button
+      <div className="lg:hidden flex justify-end mb-4 sticky top-28 z-10">
+        <Button
           onClick={() => setShowSidebar(true)}
-          className=" border-2 px-4 py-2 rounded-md"
+          className="btn order-2 px-4 py-2 rounded-md"
+          variant="outline"
         >
           Filters
-        </button>
+        </Button>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-6 xl:grid-cols-7 gap-4">
