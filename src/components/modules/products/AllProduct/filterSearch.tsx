@@ -74,7 +74,7 @@ const FilterSearch = ({
   };
 
   return (
-    <div className=" p-6 space-y-6 border rounded-lg shadow-lg bg-white  shadow-blue-200 transition-all duration-500 ease-in-out hover:-translate-y-2 hover:shadow-lg  border-gray-200">
+    <div className=" p-6 space-y-6 border rounded-lg shadow-lg bg-white  shadow-blue-200 transition-all duration-500 ease-in-out  hover:shadow-lg  border-gray-200">
       <Input
         className="input input-bordered w-full"
         type="text"
